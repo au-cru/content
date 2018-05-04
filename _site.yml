@@ -1,9 +1,14 @@
 name: "AU Open Coders"
+exclude:
+    - build.R
 navbar:
     title: "AU Open Coders"
     left:
         - text: "Home"
           href: index.html
+    right:
+        - text: "Main site"
+          href: "https://au-oc.github.io"
 output:
     html_document:
         toc: yes
