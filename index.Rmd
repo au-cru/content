@@ -1,0 +1,14 @@
+---
+title: Session material
+output:
+    html_document:
+        toc: false
+---
+
+This contains the material used in the [Aarhus University Open Coders](https://au-oc.github.io)
+hands-on coding sessions. Below is the list of sessions taught to date, according 
+to skill level.
+
+### Beginner sessions:
+
+### Intermediate sessions:
