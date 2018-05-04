@@ -9,7 +9,7 @@ params:
 ---
 
 ```{r setup}
-source("_includes/utils.R")
+source("R/utils.R")
 ```
 
 - **Date of session:** `r format(as.Date(params$datetime), format = "%d %b, %Y")`
