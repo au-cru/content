@@ -1,0 +1,30 @@
+---
+title: "Create title here"
+params:
+    datetime: "YYYY-MM-DD"
+    level: "beginner" # or intermediate or advanced
+    videolink: "" # Keep empty if no link yet.
+    instructor: "Your name here"
+    language: "R" # Or Python or Bash or Shell or Git etc
+---
+
+```{r setup}
+source("_includes/utils.R")
+```
+
+- **Date of session:** `r format(as.Date(params$datetime), format = "%d %b, %Y")`
+- **Instructor:** `r params$instructor`
+- **Session level:** `r params$level`
+- **Programming language:** `r params$language`
+```{r}
+if (any(!is.null(params$videolink), length(params$videolink) > 1)) 
+    cat("- **Session [video recording](", params$videolink, ")**")
+```
+
+## Session content
+
+Fill in content here using markdown.
+
+```{r, echo=FALSE, child="_session-info.Rmd"}
+# Keep this.
+```
