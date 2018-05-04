@@ -1,6 +1,5 @@
 name: "AU Open Coders"
 output_dir: "docs"
-exclude: ["build.R", "R/*"]
 navbar:
     title: "AU Open Coders"
     left:
