@@ -1,5 +1,6 @@
 name: "AU Open Coders"
 output_dir: "docs"
+exclude: ["R", "DESCRIPTION"]
 navbar:
     title: "AU Open Coders"
     left:
