@@ -9,6 +9,12 @@ This contains the material used in the [Aarhus University Open Coders](https://a
 hands-on coding sessions. Below is the list of sessions taught to date, according 
 to skill level.
 
-### Beginner sessions:
+Make sure to follow the [installation instructions](installation.html).
 
-### Intermediate sessions:
+## Sessions: 
+
+### Beginner:
+
+### Intermediate:
+
+- [Functions](functions.html)
