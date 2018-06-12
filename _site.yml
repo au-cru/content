@@ -5,6 +5,7 @@ navbar:
     title: "AU Open Coders"
     left:
         - text: "Home"
+          icon: fa-home
           href: index.html
     right:
         - text: "Main site"
@@ -16,8 +17,8 @@ output:
         toc_float:
             collapse: no
             smooth_scroll: no
-        theme: sandstone
-        highlight: haddock
+        theme: flatly
+        highlight: pygments
         include:
             in_header: _includes/style.html
             after_body: _includes/footer.html
