@@ -1,15 +1,31 @@
 ---
 title: "Creating your own functions in R"
+params:
+    datetime: "2018-06-01"
+    level: "Intermediate" # or intermediate or advanced
+    videolink: "" # Keep empty if no link yet.
+    instructor: "Luke W. Johnston"
+    language: "R" # Or Python or Bash or Shell or Git etc
 ---
 
-```{r, echo=FALSE}
-knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```{r setup, echo=FALSE}
+source("R/utils.R")
 ```
+
+## Session details
+
+- **Date of session**: `r format_date(params$datetime)`
+- **Instructor**: `r params$instructor`
+- **Session level**: `r params$level`
+- **Programming language**: `r params$language`
+`r add_video_link(params$videolink)`
+
+## Session content
 
 > This is the code used during the session. I've added some comments and more 
 explanation to the code.
 
-## All actions in R are functions
+### All actions in R are functions
 
 The `+` is a function, `mean()` is a function, `[]` is a function... everything 
 that does something is called a function in R. So this to add 1 with 1:
