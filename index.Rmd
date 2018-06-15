@@ -17,4 +17,5 @@ Make sure to follow the [installation instructions](installation.html).
 
 ### Intermediate:
 
-- [Functions](functions.html)
+- [Creating your own functions in R](functions.html)
+- [Making reproducible documents with R](rmarkdown.html)
