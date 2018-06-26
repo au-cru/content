@@ -1,0 +1,180 @@
+---
+title: "Making reproducible documents with R"
+bibliography: resources/references.bib
+params:
+    datetime: "2018-06-15"
+    level: "Intermediate" # or intermediate or advanced
+    videolink: "https://youtu.be/tPSSNF3yado" # Keep empty if no link yet.
+    instructor: "Luke Johnston"
+    language: "R" # Or Python or Bash or Shell or Git etc
+---
+
+```{r setup, echo=FALSE}
+source("R/utils.R")
+```
+
+- **Date of session**: `r format_date(params$datetime)`
+- **Instructor**: `r params$instructor`
+- **Session level**: `r params$level`
+- **Programming language**: `r params$language`
+`r add_video_link(params$videolink)`
+
+## Session recording
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/tPSSNF3yado" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+## Session content
+
+Much of the material was taken from these **resources**:
+
+- [RStudio tutorial on using RMarkdown](https://rmarkdown.rstudio.com/lesson-1.html)
+- [Markdown syntax guide](https://rmarkdown.rstudio.com/authoring_basics.html)
+
+Otherwise, this is the code/syntax we covered:
+
+### Markdown syntax
+
+Headers (like section, subsection, subsubsection, etc):
+
+> `# Header 1`
+> 
+> gives...
+> 
+> # Header 1
+
+> `## Header 2`
+> 
+> gives...
+> 
+> ## Header 2
+
+> `### Header 3`
+> 
+> gives...
+> 
+> ### Header 3
+
+> `**bold**` gives **bold**. `*italics*` gives *italics*.
+
+> ```
+> Unnumbered list:
+>
+> - item 1
+> - item 2
+> - item 3
+> ```
+>
+> gives...
+>
+> Unnumbered list:
+>
+> - item 1
+> - item 2
+> - item 3
+
+> ```
+> Numbered list:
+Z
+> 1. item 1
+> 2. item 2
+> 3. item 3
+> ```
+>
+> gives...
+>
+> Numbered list:
+>
+> 1. item 1
+> 2. item 2
+> 3. item 3
+
+> ```
+> Footnote[^1]
+>
+> [^1]: Footnote content
+> ```
+>
+> Footnote[^1]
+>
+> [^1]: Footnote content
+
+> ```
+> ![image caption](images/try-science.png)
+> ```
+>
+> gives...
+>
+> ![image caption](images/try-science.png)
+
+> ```
+> [Link](https://google.com)
+> ```
+>
+> gives...
+>
+> [Link](https://google.com)
+
+> ```
+> > Block quote 
+> ```
+>
+> gives...
+>
+> > Block quote 
+
+### R code in Markdown
+
+You can insert plots by using including the code chunk like below:
+
+<pre class="markdown"><code>&#96;&#96;&#96;{r plot_sepal, fig.cap="Figure title here", fig.height=8, fig.width=8, echo=FALSE}
+plot(Sepal.Length ~ Sepal.Width, data = iris)
+&#96;&#96;&#96;
+</code></pre>
+
+```{r plot_sepal, fig.cap="Figure title here", fig.height=8, fig.width=8, echo=FALSE}
+plot(Sepal.Length ~ Sepal.Width, data = iris)
+```
+
+... The options added to the code chunk tell it to add a caption, and set the
+height and width of the figure.
+
+You can also create tables by using the `kable()` in the knitr package.
+
+<pre class="markdown"><code>&#96;&#96;&#96;{r}
+knitr::kable(head(iris), caption = "Table caption here")
+&#96;&#96;&#96;
+</code></pre>
+```{r, echo=FALSE}
+knitr::kable(head(iris), caption = "Table caption here")
+```
+
+You can hide the code chunk but keep the output by using the `echo=FALSE` option:
+
+<pre class="markdown"><code>&#96;&#96;&#96;{r, echo=FALSE}
+model <- lm(Sepal.Length ~ Sepal.Width, data = iris)
+coef(model)
+&#96;&#96;&#96;
+</code></pre>
+
+```{r, echo=FALSE}
+model <- lm(Sepal.Length ~ Sepal.Width, data = iris)
+coef(model)
+```
+
+You can use inline R code too, to insert numbers directly into the document.
+
+Use this: The estimate is <code>&#96;r round(coef(model)[2], 2)&#96;</code>... to get this:
+The estimate is `r round(coef(model)[2], 2)`.
+
+If you want to insert a citation use `[@Hoejsgaard2006a]` to get it to look
+like: [@Hoejsgaard2006a]... the reference is inserted onto the bottom of the
+document. You need to add a line like this `bibliography: bibfile.bib` to the top
+YAML header (e.g. right below where you put the `title` and `author`)
+
+## Other resources
+
+- [RStudio helpful cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+- [R Markdown cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
+- [R Markdown reference cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+
+# References (add this to separate the ref list)

@@ -1,9 +1,11 @@
 name: "AU Open Coders"
 output_dir: "docs"
+exclude: ["R", "DESCRIPTION"]
 navbar:
     title: "AU Open Coders"
     left:
         - text: "Home"
+          icon: fa-home
           href: index.html
     right:
         - text: "Main site"
@@ -17,6 +19,7 @@ output:
             smooth_scroll: no
         theme: lumen
         highlight: haddock
+        #highlight: pygments
         include:
             in_header: _includes/style.html
             after_body: _includes/footer.html

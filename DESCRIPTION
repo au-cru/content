@@ -10,3 +10,7 @@ LazyData: true
 Suggests: 
     knitr,
     rmarkdown
+Imports: 
+    devtools,
+    gapminder,
+    ggplot2

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Creating your own functions in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<style type="text/css">
+table {
+    border-collapse: collapse;
+}
+thead {
+    border-top: solid #DCDCDC;
+    border-bottom: solid #DCDCDC;
+}
+tr.odd {
+    background-color: #F8F8F8;
+}
+tr:last-child {
+    border-bottom: solid #DCDCDC;
+}
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">AU Open Coders</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://au-oc.github.io">Main site</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Creating your own functions in R</h1>
+
+</div>
+
+
+<blockquote>
+<p>This is the code used during the session. I’ve added some comments and more explanation to the code.</p>
+</blockquote>
+<div id="all-actions-in-r-are-functions" class="section level2">
+<h2>All actions in R are functions</h2>
+<p>The <code>+</code> is a function, <code>mean()</code> is a function, <code>[]</code> is a function… everything that does something is called a function in R. So this to add 1 with 1:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">1</span>
+<span class="co">#&gt; [1] 2</span></code></pre></div>
+<p>… is a function that takes 1 and adds 1 to it. Functions have the basic structure of:</p>
+<ul>
+<li>the name of the new function <code>add_nums &lt;-</code></li>
+<li>the function to create the new function <code>function()</code>, along with the arguments <code>num1</code>, <code>num2</code></li>
+<li>the code to do the action of the function, everything between <code>{}</code>
+<ul>
+<li>should have a <code>return()</code> at the bottom that says what the function creates</li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">add_nums &lt;-<span class="st"> </span><span class="cf">function</span>(num1, num2) {
+    <span class="kw">stopifnot</span>(<span class="kw">is.numeric</span>(num1), <span class="kw">is.numeric</span>(num2))
+    added &lt;-<span class="st"> </span>num1 <span class="op">+</span><span class="st"> </span>num2
+    <span class="kw">return</span>(added)
+}</code></pre></div>
+<p>You can use the new function by running the above code and writing out your new function, with arguments to give it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_nums</span>(<span class="dv">1</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1] 3</span>
+<span class="kw">add_nums</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>), <span class="dv">2</span>)
+<span class="co">#&gt;  [1]  3  4  5  6  7  8  9 10 11 12</span>
+<span class="co"># Two numbers should be the same length vector (same number of numbers) or one</span>
+<span class="co"># should be only one number.</span>
+<span class="kw">add_nums</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>), <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">6</span>))
+<span class="co">#&gt; Warning in num1 + num2: longer object length is not a multiple of shorter</span>
+<span class="co">#&gt; object length</span>
+<span class="co">#&gt;  [1]  2  6  9  5  9 12  8 12 15 11</span>
+<span class="kw">add_nums</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>), <span class="kw">c</span>(<span class="dv">11</span><span class="op">:</span><span class="dv">20</span>))
+<span class="co">#&gt;  [1] 12 14 16 18 20 22 24 26 28 30</span></code></pre></div>
+<p>There are a few things to consider. In R there are different “methods” of functions. This is way above what is necessary for this session, but if you are curious <a href="http://adv-r.had.co.nz/S3.html">this website</a> has a great explanation of the different methods (e.g. S3 methods). Be warned, the website is fairly advanced!</p>
+<p>You can always look at the contents of all functions in R. So an example of an S3 function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Generic S3</span>
+print
+<span class="co">#&gt; function (x, ...) </span>
+<span class="co">#&gt; UseMethod(&quot;print&quot;)</span>
+<span class="co">#&gt; &lt;bytecode: 0x485f930&gt;</span>
+<span class="co">#&gt; &lt;environment: namespace:base&gt;</span>
+<span class="co"># Printing for data.frames</span>
+print.data.frame
+<span class="co">#&gt; function (x, ..., digits = NULL, quote = FALSE, right = TRUE, </span>
+<span class="co">#&gt;     row.names = TRUE) </span>
+<span class="co">#&gt; {</span>
+<span class="co">#&gt;     n &lt;- length(row.names(x))</span>
+<span class="co">#&gt;     if (length(x) == 0L) {</span>
+<span class="co">#&gt;         cat(sprintf(ngettext(n, &quot;data frame with 0 columns and %d row&quot;, </span>
+<span class="co">#&gt;             &quot;data frame with 0 columns and %d rows&quot;), n), &quot;\n&quot;, </span>
+<span class="co">#&gt;             sep = &quot;&quot;)</span>
+<span class="co">#&gt;     }</span>
+<span class="co">#&gt;     else if (n == 0L) {</span>
+<span class="co">#&gt;         print.default(names(x), quote = FALSE)</span>
+<span class="co">#&gt;         cat(gettext(&quot;&lt;0 rows&gt; (or 0-length row.names)\n&quot;))</span>
+<span class="co">#&gt;     }</span>
+<span class="co">#&gt;     else {</span>
+<span class="co">#&gt;         m &lt;- as.matrix(format.data.frame(x, digits = digits, </span>
+<span class="co">#&gt;             na.encode = FALSE))</span>
+<span class="co">#&gt;         if (!isTRUE(row.names)) </span>
+<span class="co">#&gt;             dimnames(m)[[1L]] &lt;- if (identical(row.names, FALSE)) </span>
+<span class="co">#&gt;                 rep.int(&quot;&quot;, n)</span>
+<span class="co">#&gt;             else row.names</span>
+<span class="co">#&gt;         print(m, ..., quote = quote, right = right)</span>
+<span class="co">#&gt;     }</span>
+<span class="co">#&gt;     invisible(x)</span>
+<span class="co">#&gt; }</span>
+<span class="co">#&gt; &lt;bytecode: 0x4f99cf0&gt;</span>
+<span class="co">#&gt; &lt;environment: namespace:base&gt;</span></code></pre></div>
+<p>Ok, let’s get to something a bit more interesting. Usually we create plots that are more or less the same each time, but with different variables or data. So this is a great example of using a function to simplify your code. Let’s load up the ggplot2 package for plotting and the <a href="https://github.com/jennybc/gapminder">gapminder</a> dataset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(gapminder)
+<span class="kw">head</span>(gapminder)
+<span class="co">#&gt; # A tibble: 6 x 6</span>
+<span class="co">#&gt;   country     continent  year lifeExp      pop gdpPercap</span>
+<span class="co">#&gt;   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Afghanistan Asia       1952    28.8  8425333      779.</span>
+<span class="co">#&gt; 2 Afghanistan Asia       1957    30.3  9240934      821.</span>
+<span class="co">#&gt; 3 Afghanistan Asia       1962    32.0 10267083      853.</span>
+<span class="co">#&gt; 4 Afghanistan Asia       1967    34.0 11537966      836.</span>
+<span class="co">#&gt; 5 Afghanistan Asia       1972    36.1 13079460      740.</span>
+<span class="co">#&gt; 6 Afghanistan Asia       1977    38.4 14880372      786.</span></code></pre></div>
+<p>Let’s plot year by life expectancy:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(gapminder, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> lifeExp)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()
+<span class="co">#&gt; `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</span></code></pre></div>
+<p><img src="functions_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>What if we wanted to see another plot by pop over time:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(gapminder, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> pop)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()
+<span class="co">#&gt; `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</span></code></pre></div>
+<p><img src="functions_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Or another plot… and so on. This starts getting a bit tedious, as you are just copying and pasting. There is a better way! Convert it into a function! The typical process for converting code into a function is first to write the code and make sure it works. Then wrap it in a function. And start replacing the variable names with the arguments. So:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># First this:</span>
+<span class="kw">ggplot</span>(gapminder, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> pop)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()
+
+<span class="co"># Then this:</span>
+plot_smooth &lt;-<span class="st"> </span><span class="cf">function</span>() {
+    plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(gapminder, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> pop)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_smooth</span>()
+    <span class="kw">return</span>(plot)
+}
+
+<span class="co"># Then lastly this:</span>
+plot_smooth &lt;-<span class="st"> </span><span class="cf">function</span>(data, xvar, yvar) {
+    plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> xvar, <span class="dt">y =</span> yvar)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_smooth</span>()
+    <span class="kw">return</span>(plot)
+}</code></pre></div>
+<p>But, this function won’t work! That’s because there is a tricky bit that you will quickly encounter in R… And that is called non-standard evaluation (NSE; check out <a href="https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval.html">here</a> or <a href="https://dplyr.tidyverse.org/articles/programming.html">here</a> for more indepth look at what non-standard evaluation is). Because ggplot2 uses NSE, you will have to do things slightly differently. The <code>aes</code> in ggplot2 uses NSE. So you have to use <code>aes_string</code> instead.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_smooth &lt;-<span class="st"> </span><span class="cf">function</span>(data, xvar, yvar) {
+    plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes_string</span>(<span class="dt">x =</span> xvar, <span class="dt">y =</span> yvar)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_smooth</span>()
+    <span class="kw">return</span>(plot)
+}
+<span class="kw">plot_smooth</span>(gapminder, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;lifeExp&quot;</span>)
+<span class="co">#&gt; `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</span></code></pre></div>
+<p><img src="functions_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_smooth</span>(gapminder, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;pop&quot;</span>)
+<span class="co">#&gt; `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</span></code></pre></div>
+<p><img src="functions_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p>If you want to make sure that who ever uses your function will not use a wrong argument, you can use “defensive programming” via the <code>stopifnot()</code> function. This forces the code to only work if <code>xvar</code> and <code>yvar</code> are character (e.g. <code>&quot;this&quot;</code>) argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_smooth &lt;-<span class="st"> </span><span class="cf">function</span>(data, xvar, yvar) {
+    <span class="kw">stopifnot</span>(<span class="kw">is.character</span>(xvar), <span class="kw">is.character</span>(yvar))
+    plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes_string</span>(<span class="dt">x =</span> xvar, <span class="dt">y =</span> yvar)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_smooth</span>()
+    <span class="kw">return</span>(plot)
+}</code></pre></div>
+<p>This NSE evaluation also happens in a popular package called dplyr. If we wanted to do a common analysis or data wrangling like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span>
+<span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     filter, lag</span>
+<span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span>
+gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(continent, year, pop) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(continent, year) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="kw">mean</span>(pop))
+<span class="co">#&gt; # A tibble: 60 x 3</span>
+<span class="co">#&gt; # Groups:   continent [?]</span>
+<span class="co">#&gt;    continent  year `mean(pop)`</span>
+<span class="co">#&gt;    &lt;fct&gt;     &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Africa     1952    4570010.</span>
+<span class="co">#&gt;  2 Africa     1957    5093033.</span>
+<span class="co">#&gt;  3 Africa     1962    5702247.</span>
+<span class="co">#&gt;  4 Africa     1967    6447875.</span>
+<span class="co">#&gt;  5 Africa     1972    7305376.</span>
+<span class="co">#&gt;  6 Africa     1977    8328097.</span>
+<span class="co">#&gt;  7 Africa     1982    9602857.</span>
+<span class="co">#&gt;  8 Africa     1987   11054502.</span>
+<span class="co">#&gt;  9 Africa     1992   12674645.</span>
+<span class="co">#&gt; 10 Africa     1997   14304480.</span>
+<span class="co">#&gt; # ... with 50 more rows</span></code></pre></div>
+<p>… and do this again but change <code>pop</code> to another variable, we can create a function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># First:</span>
+gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">select</span>(continent, year, pop) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(continent, year) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarise</span>(<span class="kw">mean</span>(pop))
+<span class="co">#&gt; # A tibble: 60 x 3</span>
+<span class="co">#&gt; # Groups:   continent [?]</span>
+<span class="co">#&gt;    continent  year `mean(pop)`</span>
+<span class="co">#&gt;    &lt;fct&gt;     &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Africa     1952    4570010.</span>
+<span class="co">#&gt;  2 Africa     1957    5093033.</span>
+<span class="co">#&gt;  3 Africa     1962    5702247.</span>
+<span class="co">#&gt;  4 Africa     1967    6447875.</span>
+<span class="co">#&gt;  5 Africa     1972    7305376.</span>
+<span class="co">#&gt;  6 Africa     1977    8328097.</span>
+<span class="co">#&gt;  7 Africa     1982    9602857.</span>
+<span class="co">#&gt;  8 Africa     1987   11054502.</span>
+<span class="co">#&gt;  9 Africa     1992   12674645.</span>
+<span class="co">#&gt; 10 Africa     1997   14304480.</span>
+<span class="co">#&gt; # ... with 50 more rows</span>
+
+<span class="co"># Then:</span>
+mean_by_continent &lt;-<span class="st"> </span><span class="cf">function</span>() {
+    by_continent &lt;-<span class="st"> </span>gapminder <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(continent, year, pop) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(continent, year) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarise</span>(<span class="kw">mean</span>(pop))
+    <span class="kw">return</span>(by_continent)
+}
+
+<span class="co"># Finally:</span>
+mean_by_continent &lt;-<span class="st"> </span><span class="cf">function</span>(data, variable) {
+    by_continent &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select</span>(continent, year, variable) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(continent, year) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">summarise</span>(<span class="kw">mean</span>(variable))
+    <span class="kw">return</span>(by_continent)
+}</code></pre></div>
+<p>… then use dplyr’s standard evaluation functions, which are usually the function with a <code>_at</code> or <code>_if</code> or other variation of that at the end…</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mean_by_continent &lt;-<span class="st"> </span><span class="cf">function</span>(data, variable) {
+    by_continent &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">select_at</span>(<span class="kw">c</span>(<span class="st">&quot;continent&quot;</span>, <span class="st">&quot;year&quot;</span>, variable)) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">group_by</span>(continent, year) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="co"># This needs to change order a bit, since the mean will be applied to</span>
+<span class="st">        </span><span class="co"># the variable.</span>
+<span class="st">        </span><span class="kw">summarise_at</span>(variable, mean)
+    <span class="kw">return</span>(by_continent)
+}</code></pre></div>
+<p>And we can use it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean_by_continent</span>(gapminder, <span class="st">&quot;lifeExp&quot;</span>)
+<span class="co">#&gt; # A tibble: 60 x 3</span>
+<span class="co">#&gt; # Groups:   continent [?]</span>
+<span class="co">#&gt;    continent  year lifeExp</span>
+<span class="co">#&gt;    &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Africa     1952    39.1</span>
+<span class="co">#&gt;  2 Africa     1957    41.3</span>
+<span class="co">#&gt;  3 Africa     1962    43.3</span>
+<span class="co">#&gt;  4 Africa     1967    45.3</span>
+<span class="co">#&gt;  5 Africa     1972    47.5</span>
+<span class="co">#&gt;  6 Africa     1977    49.6</span>
+<span class="co">#&gt;  7 Africa     1982    51.6</span>
+<span class="co">#&gt;  8 Africa     1987    53.3</span>
+<span class="co">#&gt;  9 Africa     1992    53.6</span>
+<span class="co">#&gt; 10 Africa     1997    53.6</span>
+<span class="co">#&gt; # ... with 50 more rows</span>
+<span class="kw">mean_by_continent</span>(gapminder, <span class="st">&quot;pop&quot;</span>)
+<span class="co">#&gt; # A tibble: 60 x 3</span>
+<span class="co">#&gt; # Groups:   continent [?]</span>
+<span class="co">#&gt;    continent  year       pop</span>
+<span class="co">#&gt;    &lt;fct&gt;     &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Africa     1952  4570010.</span>
+<span class="co">#&gt;  2 Africa     1957  5093033.</span>
+<span class="co">#&gt;  3 Africa     1962  5702247.</span>
+<span class="co">#&gt;  4 Africa     1967  6447875.</span>
+<span class="co">#&gt;  5 Africa     1972  7305376.</span>
+<span class="co">#&gt;  6 Africa     1977  8328097.</span>
+<span class="co">#&gt;  7 Africa     1982  9602857.</span>
+<span class="co">#&gt;  8 Africa     1987 11054502.</span>
+<span class="co">#&gt;  9 Africa     1992 12674645.</span>
+<span class="co">#&gt; 10 Africa     1997 14304480.</span>
+<span class="co">#&gt; # ... with 50 more rows</span>
+<span class="kw">mean_by_continent</span>(gapminder, <span class="kw">c</span>(<span class="st">&quot;pop&quot;</span>, <span class="st">&quot;lifeExp&quot;</span>))
+<span class="co">#&gt; # A tibble: 60 x 4</span>
+<span class="co">#&gt; # Groups:   continent [?]</span>
+<span class="co">#&gt;    continent  year       pop lifeExp</span>
+<span class="co">#&gt;    &lt;fct&gt;     &lt;int&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Africa     1952  4570010.    39.1</span>
+<span class="co">#&gt;  2 Africa     1957  5093033.    41.3</span>
+<span class="co">#&gt;  3 Africa     1962  5702247.    43.3</span>
+<span class="co">#&gt;  4 Africa     1967  6447875.    45.3</span>
+<span class="co">#&gt;  5 Africa     1972  7305376.    47.5</span>
+<span class="co">#&gt;  6 Africa     1977  8328097.    49.6</span>
+<span class="co">#&gt;  7 Africa     1982  9602857.    51.6</span>
+<span class="co">#&gt;  8 Africa     1987 11054502.    53.3</span>
+<span class="co">#&gt;  9 Africa     1992 12674645.    53.6</span>
+<span class="co">#&gt; 10 Africa     1997 14304480.    53.6</span>
+<span class="co">#&gt; # ... with 50 more rows</span></code></pre></div>
+<p>Send the output to create a table!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean_by_continent</span>(gapminder, <span class="st">&quot;lifeExp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">head</span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">caption =</span> <span class="st">&quot;Table caption here&quot;</span>)</code></pre></div>
+<table>
+<caption>Table caption here</caption>
+<thead>
+<tr class="header">
+<th align="left">continent</th>
+<th align="right">year</th>
+<th align="right">lifeExp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Africa</td>
+<td align="right">1952</td>
+<td align="right">39.13550</td>
+</tr>
+<tr class="even">
+<td align="left">Africa</td>
+<td align="right">1957</td>
+<td align="right">41.26635</td>
+</tr>
+<tr class="odd">
+<td align="left">Africa</td>
+<td align="right">1962</td>
+<td align="right">43.31944</td>
+</tr>
+<tr class="even">
+<td align="left">Africa</td>
+<td align="right">1967</td>
+<td align="right">45.33454</td>
+</tr>
+<tr class="odd">
+<td align="left">Africa</td>
+<td align="right">1972</td>
+<td align="right">47.45094</td>
+</tr>
+<tr class="even">
+<td align="left">Africa</td>
+<td align="right">1977</td>
+<td align="right">49.58042</td>
+</tr>
+</tbody>
+</table>
+<p>We can even use both our functions together!</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean_by_continent</span>(gapminder, <span class="st">&quot;lifeExp&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">plot_smooth</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;lifeExp&quot;</span>)
+<span class="co">#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</span></code></pre></div>
+<p><img src="functions_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<ul>
+<li><a href="http://stat545.com/block011_write-your-own-function-01.html">STAT545</a> from University of British Columbia, Canada</li>
+<li>Great introduction to functions from <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/">Software Carpentry</a></li>
+<li>Very advanced (for those interested) details about functions from <a href="http://adv-r.had.co.nz/Functions.html">Advanced R book</a></li>
+</ul>
+</div>
+
+<hr>
+
+<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. See the <a href="LICENSE.html">licensing</a> page for more details about copyright information.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -15,11 +15,12 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <style type="text/css">
 table {
     border-collapse: collapse;
@@ -97,34 +98,34 @@ button.code-folding-btn:focus {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 61px;
+  padding-top: 60px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 
 .section h2 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h3 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h4 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h5 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 .section h6 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 65px;
+  margin-top: -65px;
 }
 </style>
 
@@ -176,7 +177,11 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Home</a>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -198,11 +203,19 @@ $(document).ready(function () {
 
 
 <p>This contains the material used in the <a href="https://au-oc.github.io">Aarhus University Open Coders</a> hands-on coding sessions. Below is the list of sessions taught to date, according to skill level.</p>
-<div id="beginner-sessions" class="section level3">
-<h3>Beginner sessions:</h3>
+<p>Make sure to follow the <a href="installation.html">installation instructions</a>.</p>
+<div id="sessions" class="section level2">
+<h2>Sessions:</h2>
+<div id="beginner" class="section level3">
+<h3>Beginner:</h3>
 </div>
-<div id="intermediate-sessions" class="section level3">
-<h3>Intermediate sessions:</h3>
+<div id="intermediate" class="section level3">
+<h3>Intermediate:</h3>
+<ul>
+<li><a href="functions.html">Creating your own functions in R</a></li>
+<li><a href="rmarkdown.html">Making reproducible documents with R</a></li>
+</ul>
+</div>
 </div>
 
 <hr>
