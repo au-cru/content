@@ -3,7 +3,7 @@ title: "Create title here"
 params:
     datetime: "YYYY-MM-DD"
     level: "beginner" # or intermediate or advanced
-    videolink: "" # Keep empty if no link yet.
+    video_id: "" # Remove if no video
     instructor: "Your name here"
     language: "R" # Or Python or Bash or Shell or Git etc
 ---
@@ -16,10 +16,7 @@ source("R/utils.R")
 - **Instructor:** `r params$instructor`
 - **Session level:** `r params$level`
 - **Programming language:** `r params$language`
-```{r}
-if (any(!is.null(params$videolink), length(params$videolink) > 1)) 
-    cat("- **Session [video recording](", params$videolink, ")**")
-```
+`r add_video(params$video_id)`
 
 ## Session content
 

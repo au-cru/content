@@ -4,7 +4,7 @@ bibliography: resources/references.bib
 params:
     datetime: "2018-06-15"
     level: "Intermediate" # or intermediate or advanced
-    videolink: "https://youtu.be/tPSSNF3yado" # Keep empty if no link yet.
+    video_id: "tPSSNF3yado" # Keep empty if no link yet.
     instructor: "Luke Johnston"
     language: "R" # Or Python or Bash or Shell or Git etc
 ---
@@ -17,11 +17,7 @@ source("R/utils.R")
 - **Instructor**: `r params$instructor`
 - **Session level**: `r params$level`
 - **Programming language**: `r params$language`
-`r add_video_link(params$videolink)`
-
-## Session recording
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tPSSNF3yado" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+`r add_video(params$video_id)`
 
 ## Session content
 
