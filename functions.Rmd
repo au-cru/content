@@ -3,7 +3,6 @@ title: "Creating your own functions in R"
 params:
     datetime: "2018-06-01"
     level: "Intermediate" # or intermediate or advanced
-    videolink: "" # Keep empty if no link yet.
     instructor: "Luke W. Johnston"
     language: "R" # Or Python or Bash or Shell or Git etc
 ---
