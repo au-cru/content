@@ -11,7 +11,7 @@
 
 
 
-<title>Making reproducible documents with R</title>
+<title>Introduction to version control with Git</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,6 +23,16 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/viz-0.3/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.0/grViz.js"></script>
+<script src="site_libs/d3-3.3.8/d3.min.js"></script>
+<script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<script src="site_libs/chromatography-0.1/chromatography.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.0/DiagrammeR.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <style type="text/css">
@@ -394,216 +404,135 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Making reproducible documents with R</h1>
+<h1 class="title toc-ignore">Introduction to version control with Git</h1>
 
 </div>
 
 
-<ul>
-<li><strong>Date of session</strong>: 15 Jun, 2018</li>
-<li><strong>Instructor</strong>: Luke Johnston</li>
-<li><strong>Session level</strong>: Intermediate</li>
-<li><strong>Programming language</strong>: R</li>
-<li><strong>Session <a href="https://youtu.be/tPSSNF3yado">video recording</a></strong></li>
-</ul>
-<div id="session-recording" class="section level2">
-<h2>Session recording</h2>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tPSSNF3yado" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-</iframe>
-</div>
-<div id="session-content" class="section level2">
-<h2>Session content</h2>
-<p>Much of the material was taken from these <strong>resources</strong>:</p>
-<ul>
-<li><a href="https://rmarkdown.rstudio.com/lesson-1.html">RStudio tutorial on using RMarkdown</a></li>
-<li><a href="https://rmarkdown.rstudio.com/authoring_basics.html">Markdown syntax guide</a></li>
-</ul>
-<p>Otherwise, this is the code/syntax we covered:</p>
-<div id="markdown-syntax" class="section level3">
-<h3>Markdown syntax</h3>
-<p>Headers (like section, subsection, subsubsection, etc):</p>
-<blockquote>
-<p><code># Header 1</code></p>
-<p>gives…</p>
-<h1 id="header-1">Header 1</h1>
-</blockquote>
-<blockquote>
-<p><code>## Header 2</code></p>
-<p>gives…</p>
-<h2 id="header-2">Header 2</h2>
-</blockquote>
-<blockquote>
-<p><code>### Header 3</code></p>
-<p>gives…</p>
-<h3 id="header-3">Header 3</h3>
-</blockquote>
-<blockquote>
-<p><code>**bold**</code> gives <strong>bold</strong>. <code>*italics*</code> gives <em>italics</em>.</p>
-</blockquote>
-<blockquote>
-<pre><code>Unnumbered list:
-
-- item 1
-- item 2
-- item 3</code></pre>
-<p>gives…</p>
-<p>Unnumbered list:</p>
-<ul>
-<li>item 1</li>
-<li>item 2</li>
-<li>item 3</li>
-</ul>
-</blockquote>
-<blockquote>
-<pre><code>Numbered list:
-Z
-1. item 1
-2. item 2
-3. item 3</code></pre>
-<p>gives…</p>
-<p>Numbered list:</p>
-<ol style="list-style-type: decimal">
-<li>item 1</li>
-<li>item 2</li>
-<li>item 3</li>
-</ol>
-</blockquote>
-<blockquote>
-<pre><code>Footnote[^1]
-
-[^1]: Footnote content</code></pre>
-<p>Footnote<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
-</blockquote>
-<blockquote>
-<pre><code>![image caption](images/try-science.png)</code></pre>
-<p>gives…</p>
+<div id="what-is-version-control" class="section level2">
+<h2>What is version control</h2>
 <div class="figure">
-<img src="images/try-science.png" alt="image caption" />
-<p class="caption">image caption</p>
-</div>
-</blockquote>
-<blockquote>
-<pre><code>[Link](https://google.com)</code></pre>
-<p>gives…</p>
-<p><a href="https://google.com">Link</a></p>
-</blockquote>
-<blockquote>
-<pre><code>&gt; Block quote </code></pre>
-<p>gives…</p>
-<blockquote>
-<p>Block quote</p>
-</blockquote>
-</blockquote>
-</div>
-<div id="r-code-in-markdown" class="section level3">
-<h3>R code in Markdown</h3>
-<p>You can insert plots by using including the code chunk like below:</p>
-<pre class="markdown"><code>&#96;&#96;&#96;{r plot_sepal, fig.cap="Figure title here", fig.height=8, fig.width=8, echo=FALSE}
-plot(Sepal.Length ~ Sepal.Width, data = iris)
-&#96;&#96;&#96;
-</code></pre>
-<div class="figure">
-<img src="images/plot_sepal-1.png" alt="Figure title here" width="720" />
-<p class="caption">
-Figure title here
-</p>
-</div>
-<p>… The options added to the code chunk tell it to add a caption, and set the height and width of the figure.</p>
-<p>You can also create tables by using the <code>kable()</code> in the knitr package.</p>
-<pre class="markdown"><code>&#96;&#96;&#96;{r}
-knitr::kable(head(iris), caption = "Table caption here")
-&#96;&#96;&#96;
-</code></pre>
-<table>
-<caption>Table caption here</caption>
-<thead>
-<tr class="header">
-<th align="right">Sepal.Length</th>
-<th align="right">Sepal.Width</th>
-<th align="right">Petal.Length</th>
-<th align="right">Petal.Width</th>
-<th align="left">Species</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">5.1</td>
-<td align="right">3.5</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.9</td>
-<td align="right">3.0</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">4.7</td>
-<td align="right">3.2</td>
-<td align="right">1.3</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.6</td>
-<td align="right">3.1</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">5.0</td>
-<td align="right">3.6</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">5.4</td>
-<td align="right">3.9</td>
-<td align="right">1.7</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
-</tr>
-</tbody>
-</table>
-<p>You can hide the code chunk but keep the output by using the <code>echo=FALSE</code> option:</p>
-<pre class="markdown"><code>&#96;&#96;&#96;{r, echo=FALSE}
-model <- lm(Sepal.Length ~ Sepal.Width, data = iris)
-coef(model)
-&#96;&#96;&#96;
-</code></pre>
-<pre><code>#&gt; (Intercept) Sepal.Width 
-#&gt;   6.5262226  -0.2233611</code></pre>
-<p>You can use inline R code too, to insert numbers directly into the document.</p>
-<p>Use this: The estimate is <code>`r round(coef(model)[2], 2)`</code>… to get this: The estimate is -0.22.</p>
-<p>If you want to insert a citation use <code>[@Hoejsgaard2006a]</code> to get it to look like: <span class="citation">(Højsgaard, Halekoh, and Yan 2006)</span>… the reference is inserted onto the bottom of the document. You need to add a line like this <code>bibliography: bibfile.bib</code> to the top YAML header (e.g. right below where you put the <code>title</code> and <code>author</code>)</p>
+<img src="images/phd-comics-versions-small.jpg" alt="Common “version control”" />
+<p class="caption">Common “version control”</p>
 </div>
 </div>
-<div id="other-resources" class="section level2">
-<h2>Other resources</h2>
+<div id="formal-version-control" class="section level2">
+<h2>Formal version control</h2>
 <ul>
-<li><a href="https://www.rstudio.com/resources/cheatsheets/">RStudio helpful cheatsheets</a></li>
-<li><a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf">R Markdown cheatsheet</a></li>
-<li><a href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">R Markdown reference cheatsheet</a></li>
+<li>Automated and structured approach</li>
+<li>Using computers to help simplify your work</li>
+<li>Several programs available
+<ul>
+<li>CVS</li>
+<li>Subversion</li>
+<li><strong>Git</strong></li>
+<li>Mercurial</li>
+</ul></li>
 </ul>
 </div>
-<div id="references-add-this-to-separate-the-ref-list" class="section level1 unnumbered">
-<h1>References (add this to separate the ref list)</h1>
-<div id="refs" class="references">
-<div id="ref-Hoejsgaard2006a">
-<p>Højsgaard, Søren, Ulrich Halekoh, and Jun Yan. 2006. “The R Package Geepack for Generalized Estimating Equations.” <em>Journal of Statistical Software</em> 15/2: 1–11.</p>
+<div id="why-should-you-learn-and-use-it-why-use-git" class="section level2">
+<h2>Why should you learn and use it? Why use Git?</h2>
+<ul>
+<li><em>Big reasons for the sciences</em>
+<ul>
+<li>Claim to first discovery</li>
+<li>Defend against fraud</li>
+<li>Evidence of contributions and work</li>
+</ul></li>
+<li><em>Day-to-day reasons</em>
+<ul>
+<li>Easily keep track of changes to files</li>
+<li>Easy collaboration</li>
+<li>Organized files</li>
+<li>Less time findings things</li>
+</ul></li>
+</ul>
+</div>
+<div id="git-compared-to-other-programs" class="section level2">
+<h2>Git compared to other programs</h2>
+<div class="figure">
+<img src="images/vcs-over-time-small.jpg" alt="Git vs others" />
+<p class="caption">Git vs others</p>
 </div>
 </div>
+<div id="git-is-popular-and-powerful" class="section level2">
+<h2>Git is popular… and powerful</h2>
+<ul>
+<li>Two biggest reasons:
+<ul>
+<li>Open source</li>
+<li>Popular</li>
+</ul></li>
+<li>And …. GitHub
+<ul>
+<li>Most R packages on GitHub</li>
+<li>Lots of scientists and scientific work on it</li>
+</ul></li>
+</ul>
 </div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>Footnote content<a href="#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
+<div id="philosophy-behind-version-control" class="section level2">
+<h2>Philosophy behind version control</h2>
+<ul>
+<li>Originally to manage software products
+<ul>
+<li>e.g. Google searching, Word, Mac OSX, Linux kernel</li>
+</ul></li>
+<li>Designed for:
+<ul>
+<li>Managing different file versions</li>
+<li>Multiple people working on same file</li>
+</ul></li>
+</ul>
+</div>
+<div id="philosophy-behind-git" class="section level2">
+<h2>Philosophy behind Git</h2>
+<ul>
+<li>Focus on collaboration/team work</li>
+<li>Focus on “non-corporate” work
+<ul>
+<li>Open source software</li>
+<li>Scientific coding/computing</li>
+</ul></li>
+</ul>
+</div>
+<div id="details-of-how-git-version-control-works" class="section level2">
+<h2>Details of how Git version control works</h2>
+<ul>
+<li>In past, file history saved on server</li>
+<li>Git is <em>distributed</em></li>
+</ul>
+<div id="htmlwidget-de9735dad24604303c13" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-de9735dad24604303c13">{"x":{"diagram":"\ngraph {\n    graph [rankdir = LR]\n    A [label = \"Full copy\n(mine)\"]\n    B [label = \"Full copy\n(yours)\"]\n    C [label = \"Full copy\n(theirs)\"]\n    A -- {B C}\n    B -- C\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="how-to-use-git-overview-common-commands" class="section level2">
+<h2>How to use Git overview: Common commands</h2>
+<p><em>Seven main commands</em></p>
+<ul>
+<li>git init</li>
+<li>git status</li>
+<li>git add</li>
+<li>git commit</li>
+<li>git log</li>
+<li>git diff</li>
+<li>git checkout</li>
+</ul>
+</div>
+<div id="how-to-use-git-overview-less-common-commands" class="section level2">
+<h2>How to use Git overview: Less common commands</h2>
+<ul>
+<li>git push</li>
+<li>git pull</li>
+</ul>
+</div>
+<div id="how-to-use-git-overview-areas" class="section level2">
+<h2>How to use Git overview: Areas</h2>
+<div id="htmlwidget-eb6c733e22ae3c0260bf" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eb6c733e22ae3c0260bf">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="how-to-use-git-overview-remotes-aka-github" class="section level2">
+<h2>How to use Git overview: “Remotes” (aka GitHub)</h2>
+<div id="htmlwidget-021c420c8b9363083d06" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-021c420c8b9363083d06">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 <hr>
