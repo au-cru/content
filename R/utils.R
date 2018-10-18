@@ -1,5 +1,6 @@
 
-knitr::opts_chunk$set(comment = "#>", fig.path = "images/")
+knitr::opts_chunk$set(comment = "#>", fig.path = "images/", dpi = 90,
+                      fig.height = 4, fig.width = 4)
 
 add_video_link <- function(video_param) {
     if (!is.null(video_param))
