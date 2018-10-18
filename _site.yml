@@ -10,14 +10,15 @@ navbar:
     right:
         - text: "Main site"
           href: "https://au-oc.github.io"
+
 output:
     html_document:
-        toc: yes
-        toc_depth: 4
+        toc: true
+        toc_depth: 3
         toc_float:
             collapse: no
             smooth_scroll: no
-        theme: flatly
+        theme: paper
         highlight: pygments
         include:
             in_header: _includes/style.html
