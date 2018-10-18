@@ -19,7 +19,7 @@ output:
             collapse: no
             smooth_scroll: no
         theme: paper
-        highlight: pygments
+        highlight: haddock
         include:
             in_header: _includes/style.html
             after_body: _includes/footer.html

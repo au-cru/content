@@ -13,4 +13,5 @@ Suggests:
 Imports: 
     devtools,
     gapminder,
-    ggplot2
+    ggplot2,
+    glue
