@@ -11,11 +11,13 @@ to skill level.
 
 Make sure to follow the [installation instructions](installation.html).
 
-## Sessions: 
+## Series:
 
 ### Beginner:
 
-### Intermediate:
+- [Introduction to visualising and plotting your data using ggplot2](intro-ggplot2.html)
+
+## Misc sessions:
 
 - [Creating your own functions in R](functions.html)
 - [Making reproducible documents with R](rmarkdown.html)
