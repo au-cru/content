@@ -1,54 +1,99 @@
 ---
-title: 'Work with and manage your data efficiently in R: tidyr and dplyr'
-author: "Elena Dudukina"
-date: "26 October 2018"
-output: html_document
+title: "Work with and manage your data efficiently in R: dplyr and tidyr"
+params:
+    datetime: "2018-10-26"
+    level: "Beginner" # or intermediate or advanced
+    videolink: "" # Keep empty if no link yet.
+    instructor: "Elena Dudukina"
 ---
 
-```{r setup, include=T,echo=F}
-knitr::opts_chunk$set(echo = TRUE)
-```
-# Packages to install
-```{r install packs, eval=FALSE, include=T}
-install.packages(c("tidyr", "dplyr", "stringr", "ggplot2"))
+```{r setup, echo=FALSE}
+source("R/utils.R")
 ```
 
-# Objectives
+## Session details
 
-1. To learn the difference between "messy" and "tidy" data and see the advantages of using data that are consistently structured
-2. To get to know the tools that help tidying up and reshaping the data
-3. To perform simple data transformations and create summaries
+- **Date of session**: `r format_date(params$datetime)`
+- **Instructor**: `r params$instructor`
+- **Session level**: `r params$level`
+    - **Part of the ["Beginner Series"](index.html)**
+- **Required packages to install**:
+
+    ```{r, eval=FALSE}
+    install.packages(c("dplyr", "tidyr"))
+    ```
+
+
+### Objectives
+
+1. To learn the difference between "messy" and "tidy" data and see the advantages of using data that are consistently structured.
+2. To get to know the tools that help tidying up and reshaping the data.
+3. To perform simple data transformations and create summaries.
     
 **At the end of this session you will be able:**
 
-1. To change the structure of the data using tidyr tools `gather()`, `separate()`, and `spread()`
-2. To perform simple data transformations using dplyr tool `mutate()`
-3. To select variables and observations to work with using dplyr tools `filter()`and `select()`
-4. To order data by variable using dplyr tool `arrange()`
-5. To provide a simple data summary using dplyr tools `group_by` and `summarise()`
+1. To perform simple data transformations using dplyr function `mutate()`.
+1. To select variables and observations to work with using dplyr functions `filter()`and `select()`.
+1. To order data by variable using dplyr function `arrange()`.
+1. To provide a simple data summary using dplyr functions `group_by()` and `summarise()`.
+1. To change the structure of the data using tidyr functions `gather()`, `separate()`, and `spread()`.
 
-# Sources for learning
+## Resources for learning and help
+
+**For learning**:
+
 1. "R for Data Science" book: [Chapter on tidy data](http://r4ds.had.co.nz/tidy-data.html)
 2. [tidyr vignette](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
 3. [dplyr vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
 4. DataCamp course ["Working with Data in the Tidyverse"](https://www.datacamp.com/courses/working-with-data-in-the-tidyverse)
     - Chapter 1 "Explore your data" is free (the following chapters are available after purchasing the DataCamp subscription)
+
+**For help**:
     
-# Sources for getting help
 1. [Data wrangling cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 2. [StackOverflow for tidyr](https://stackoverflow.com/questions/tagged/tidyr)
 3. [StackOverflow for dplyr](https://stackoverflow.com/questions/tagged/dplyr)
 4. Quick package information using RStudio: `?tidyr`, `?dplyr`
 
+## Quickly look over the data we will use
+
+```{r}
+library(dplyr)
+library(tidyr)
+```
+
+### Exercise: Choose and look at a dataset
+
+Create an `exercise.R` file (we will have done that in class) and put these code into the file.
+
+```{r}
+# Load the packages
+library(dplyr)
+library(tidyr)
+
+# Variables
+names(CO2)
+
+# General contents
+str(CO2)
+
+# Using the dplyr function
+glimpse(CO2)
+
+# Quick summary
+summary(CO2)
+```
+
+
 ## "Messy" vs. "tidy" data
 
-**The dataset is tidy if:**
+**The dataset is tidy when:**
 
- + Each variable must have its own column
- + Each observation must have its own row
- + Each value must have its own cell
+- Each variable has its own column.
+- Each observation has its own row
+- Each value has its own cell
 
-```{r Libraries,}
+```{r Libraries}
 library(tidyr)
 library(dplyr)
 library(stringr)
@@ -56,71 +101,88 @@ library(ggplot2)
 ```
 
 Explore the structure of `table1`. Is it tidy?
-```{r tab1,}
+
+```{r tab1}
 table1
 ```
-**Pros of tidy data**:
+
+**Benefits of tidy data and tidy code**:
 
 1. Time spent preparing your data at the beginning can save hours of frustration in the long run.
 2. "Tidy data" provides a concept and the package tidyr provides the functions for this work.
 3. Tibble package makes datasets efficient to work with.
-4. dplyr provides fast and intuitive data processing functions; data.table package is speedy with large data.
+4. dplyr provides fast and intuitive data processing functions.
+    - For *very very large* datasets, the data.table package is very fast and powerful
 5. The `%>%` pipe operator can help clarify complex data processing workflows.
 
-## Gather()
-Explore the structure of the `table4a`
-```{r tab4a, }
+## Converting to long form with `gather()`
+
+Explore the structure of the `table4a`.
+
+```{r tab4a}
 table4a
 ```
-* Is `table4a` tidy?
-* How would you like to organise data in `table4`?
+
+- Is `table4a` tidy?
+- How would you like to organise data in `table4`?
     - Would it be helpful to have columns `country`, `year`, and `cases` with counts?
     - Gather columns `1999` and `2000` into row values of a new column `year` and cases counts into values of a new column `cases`
 
-```{r tab4a gather,}
+```{r tab4a_gather}
 table4a_tidy <- table4a %>%
   gather(key = "year", value = "cases", `1999`:`2000`)
 table4a_tidy
 ```
-### Exercise 1:
+
+### Exercise: Convert your data into a long form
+
 Time: 5 min
-```{r tab4b gather,}
+
+```{r tab4b_gather}
 # explore structure of `table4b`
 table4b
 
-# is it tidy? Use gather() to make it tidy
+# use gather() to make it tidy
 table4b_tidy <- table4b %>%
-  gather (key = "year", value="populaton", `1999`, `2000`)
+  gather(key = "year", value = "populaton", `1999`, `2000`)
+
 table4b_tidy
 ```
-## Spread()
+
+## Converting to wide form with `spread()`
+
 Explore the structure of the `table2`
-```{r tab2,}
+
+```{r tab2}
 table2
 ```
-* Is `table2` tidy?
-    - Depends on what we plan to use it for
-    - Later we would like to calculate the rate of the disease in each country per year: rate=cases/100,000*population
 
-* What data structure is preferred?
-    - Each country has a row that contains all information needed to proceed with the calculation: year, number of cases, and the population size
-    - Spread the column `type` into two columns `cases` and `population`
+- Is `table2` tidy?
+    - Depends on what we plan to use it for.
+    - Later we would like to calculate the rate of the disease in each country per year: `rate = cases / 100,000 * population`.
+
+- What data structure is preferred?
+    - Each country has a row that contains all information needed to proceed with the calculation: year, number of cases, and the population size.
+    - Spread the column `type` into two columns `cases` and `population`.
     
 ```{r spread,}
 table2 %>%
     spread(key = type, value = count)
 ```
 
-### Case study
+## Case study for using tidyr
 
-The tidyr::who dataset contains tuberculosis (TB) cases broken down by year, country, age, gender, and diagnosis method.
+The `tidyr::who` dataset contains tuberculosis (TB) cases broken down by year, country, age, gender, and diagnosis method.
 
 Explore `who` data: are they tidy?
-```{r who,}
+
+```{r who}
 glimpse(who)
 ```
+
 `new_sp_m014` to `newrel_f65` are likely values, not variables. We don't know what those values represent yet, so we'll give them the generic name "key". We know the cells represent the count of cases, so we'll use the variable cases. Let's reshape these data:
-```{r who1,}
+
+```{r who1}
 who1 <- who %>% 
   gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = TRUE)
 who1
@@ -147,31 +209,41 @@ The remaining numbers gives the age group. The dataset groups cases into seven a
 - 65 = 65 or older
 
 Fixing inconsistent column names (`new_sp_` but `newrel_`)
-```{r who2,}
+
+```{r who2}
 who2 <- who1 %>% 
   mutate(key = str_replace(string = key, pattern = "newrel", replacement = "new_rel"))
 who2
 ```
+
 Fixing an issue of having several values (e.g., description of the case, type of TB, sex, and age) are coded as one value:
-```{r who3,}
+
+```{r who3}
 who3 <- who2 %>% 
   separate(key, c("new", "type", "sexage"), sep = "_")
 who3
 ```
+
 Dropping redundant columns `new`, `iso2`, `iso3`:
-```{r who4,}
+
+```{r who4}
 who4 <- who3 %>% 
   select(-new, -iso2, -iso3)
 str(who4)
 ```
+
 Separating `sexage` values:
-```{r who5,}
+
+```{r who5}
 who5 <- who4 %>% 
   separate(sexage, c("sex", "age"), sep = 1)
 who5
 ```
-### Exercise 2:
-Time: 15 min
+
+### Exercise: Separate a column into two new ones
+
+Time: 10 min
+
 ```{r separate}
 # explore the structure of the table3
 table3
@@ -179,88 +251,97 @@ table3
 # separate rate variable into two columns with numeric values.
 table3 %>%
   separate(col = rate, into = c("cases", "population"), sep = "/", convert = T) %>%
-# calculate new variable "rate" per 100,000 population for each country per year
+  # calculate new variable "rate" per 100,000 population for each country per year
   mutate(
-    rate=as.numeric(cases/population*100000)
+    rate = as.numeric(cases / population * 100000)
   )
 ```
 
 ## Filtering data based on values and ordering data by variables
+
 ```{r}
 who6 <- who5 %>%
-# exclude relapse of TB, include years after 1997 and non-zero case counts
+  # exclude relapse of TB, include years after 1997 and non-zero case counts
   filter(type != "rel", year > 1997, cases > 0) %>%
-# create a new variable called "nordic country"
+  # create a new variable called "nordic country"
   mutate(
-    nordic = if_else(country == "Denmark" | country == "Sweden" | country == "Norway", "Nordic", "not Nordic")) %>%
-# arrange data by year and country
+    nordic = if_else(country == "Denmark" | country == "Sweden" | country == "Norway", "Nordic", "not Nordic")
+  ) %>%
+  # arrange data by year and country
   arrange(year, nordic)
 ```
-### Exercise 3
+
+### Exercise: filter and re-arrange your dataset
+
 Time: 15 min
-```{r exercise 3,}
+
+```{r exercise3}
 # make a dataset who7 that would include only smear positive TB diagnosed from 1994 through 2012
 who7 <- who5 %>%
   filter(type == "sp", year >= 1994) %>%
-# select all variables except for age
+  # select all variables except for age
   select(-age) %>%
-# arrange by number of cases in descending order
+  # arrange by number of cases in descending order
   arrange(desc(cases))
 
 # optional: visualize the case count on y-axis and year on x-axis by sex using fill argument; use ggplot with geom_bar() layer; try dodged position of the bars
 who7 %>%
-  ggplot(aes(x=year, y=cases, fill=sex)) +
+  ggplot(aes(x = year, y = cases, fill = sex)) +
   geom_bar(stat = "identity", position = position_dodge())
 ```
 
 ## Creating a simple data summary
-```{r who6,}
+
+```{r who6}
 summary <- who6 %>%
-# group by country
+  # group by country
   group_by(country) %>%
-# summarise cases count per country
+  # summarise cases count per country
   summarise(
     cum_n_cases = sum(cases),
-    pct_fem_cases_cum = sum(cases[sex=="f"])/cum_n_cases*100,
+    pct_fem_cases_cum = sum(cases[sex == "f"]) / cum_n_cases * 100,
     min_cases = min(cases),
-    max_cases =  max(cases)
+    max_cases = max(cases)
   ) %>%
-  arrange(desc(cum_n_cases)) 
+  arrange(desc(cum_n_cases))
 summary
 ```
+
 ## Final exercise:
+
 Time: Until end of the session
 
-1. Choose a dataset to work with
-2. Create a new variable using `mutate()`
-3. Select variables relevant for the future summary using `select()`
-4. Filter data based on several row values using `filter()`
-5. Group your data before summarising if necessary using `group_by()`
-6. Create a concise summary of the data using `summarise()`
-7. Arrange results of your summary using `arrange()`
+1. Choose a dataset to work with.
+2. Create a new variable using `mutate()`.
+3. Select variables relevant for the future summary using `select()`.
+4. Filter data based on several row values using `filter()`.
+5. Group your data before summarising if necessary using `group_by()`.
+6. Create a concise summary of the data using `summarise()`.
+7. Arrange results of your summary using `arrange()`.
 
-```{r final exercise example,}
+```{r final exercise example, include=FALSE, eval=FALSE}
 # 1
 summary_example <- who6 %>%
-# 2
-mutate(
-  children = if_else( age=="014" & sex=="f", "girls",
-                      if_else(age=="014" & sex=="m", "boys", "older"))
-) %>%
-# 3
-select(-sex) %>%
-# 4
-filter(type == "sn", cases > 30, year > 2000) %>%
-# 5
+  # 2
+  mutate(
+    children = if_else(age == "014" & sex == "f", "girls",
+      if_else(age == "014" & sex == "m", "boys", "older")
+    )
+  ) %>%
+  # 3
+  select(-sex) %>%
+  # 4
+  filter(type == "sn", cases > 30, year > 2000) %>%
+  # 5
   group_by(year, country) %>%
-# 6
+  # 6
   summarise(
     sum_cases = sum(cases),
-    n_girl_cases = sum(cases[children=="girls"]),
-    pct_girl_cases = sum(cases[children=="girls"])/sum(cases)*100
+    n_girl_cases = sum(cases[children == "girls"]),
+    pct_girl_cases = sum(cases[children == "girls"]) / sum(cases) * 100
   ) %>%
-# 7
-  arrange(desc(pct_girl_cases), sum_cases) 
+  # 7
+  arrange(desc(pct_girl_cases), sum_cases)
 summary_example
 ```
 
