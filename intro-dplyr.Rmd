@@ -96,8 +96,6 @@ summary(CO2)
 ```{r Libraries}
 library(tidyr)
 library(dplyr)
-library(stringr)
-library(ggplot2)
 ```
 
 Explore the structure of `table1`. Is it tidy?
@@ -212,7 +210,7 @@ Fixing inconsistent column names (`new_sp_` but `newrel_`)
 
 ```{r who2}
 who2 <- who1 %>% 
-  mutate(key = str_replace(string = key, pattern = "newrel", replacement = "new_rel"))
+  mutate(key = gsub(pattern = "newrel", replacement = "new_rel", x = key))
 who2
 ```
 
@@ -283,12 +281,9 @@ who7 <- who5 %>%
   select(-age) %>%
   # arrange by number of cases in descending order
   arrange(desc(cases))
-
-# optional: visualize the case count on y-axis and year on x-axis by sex using fill argument; use ggplot with geom_bar() layer; try dodged position of the bars
-who7 %>%
-  ggplot(aes(x = year, y = cases, fill = sex)) +
-  geom_bar(stat = "identity", position = position_dodge())
 ```
+
+If you are familiar with ggplot2, then you can optional visualize a bar plot of the case count on y-axis and year on x-axis, with sex as the fill.
 
 ## Creating a simple data summary
 
