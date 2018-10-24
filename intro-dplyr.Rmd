@@ -113,6 +113,53 @@ table1
     - For *very very large* datasets, the data.table package is very fast and powerful
 5. The `%>%` pipe operator can help clarify complex data processing workflows.
 
+## Filtering data based on values and ordering data by variables
+
+```{r}
+who6 <- who5 %>%
+  # exclude relapse of TB, include years after 1997 and non-zero case counts
+  filter(type != "rel", year > 1997, cases > 0) %>%
+  # create a new variable called "nordic country"
+  mutate(
+    nordic = if_else(country == "Denmark" | country == "Sweden" | country == "Norway", "Nordic", "not Nordic")
+  ) %>%
+  # arrange data by year and country
+  arrange(year, nordic)
+```
+
+### Exercise: filter and re-arrange your dataset
+
+Time: 15 min
+
+```{r exercise3}
+# make a dataset who7 that would include only smear positive TB diagnosed from 1994 through 2012
+who7 <- who5 %>%
+  filter(type == "sp", year >= 1994) %>%
+  # select all variables except for age
+  select(-age) %>%
+  # arrange by number of cases in descending order
+  arrange(desc(cases))
+```
+
+If you are familiar with ggplot2, then you can optional visualize a bar plot of the case count on y-axis and year on x-axis, with sex as the fill.
+
+## Creating a simple data summary
+
+```{r who6}
+summary <- who6 %>%
+  # group by country
+  group_by(country) %>%
+  # summarise cases count per country
+  summarise(
+    cum_n_cases = sum(cases),
+    pct_fem_cases_cum = sum(cases[sex == "f"]) / cum_n_cases * 100,
+    min_cases = min(cases),
+    max_cases = max(cases)
+  ) %>%
+  arrange(desc(cum_n_cases))
+summary
+```
+
 ## Converting to long form with `gather()`
 
 Explore the structure of the `table4a`.
@@ -255,52 +302,6 @@ table3 %>%
   )
 ```
 
-## Filtering data based on values and ordering data by variables
-
-```{r}
-who6 <- who5 %>%
-  # exclude relapse of TB, include years after 1997 and non-zero case counts
-  filter(type != "rel", year > 1997, cases > 0) %>%
-  # create a new variable called "nordic country"
-  mutate(
-    nordic = if_else(country == "Denmark" | country == "Sweden" | country == "Norway", "Nordic", "not Nordic")
-  ) %>%
-  # arrange data by year and country
-  arrange(year, nordic)
-```
-
-### Exercise: filter and re-arrange your dataset
-
-Time: 15 min
-
-```{r exercise3}
-# make a dataset who7 that would include only smear positive TB diagnosed from 1994 through 2012
-who7 <- who5 %>%
-  filter(type == "sp", year >= 1994) %>%
-  # select all variables except for age
-  select(-age) %>%
-  # arrange by number of cases in descending order
-  arrange(desc(cases))
-```
-
-If you are familiar with ggplot2, then you can optional visualize a bar plot of the case count on y-axis and year on x-axis, with sex as the fill.
-
-## Creating a simple data summary
-
-```{r who6}
-summary <- who6 %>%
-  # group by country
-  group_by(country) %>%
-  # summarise cases count per country
-  summarise(
-    cum_n_cases = sum(cases),
-    pct_fem_cases_cum = sum(cases[sex == "f"]) / cum_n_cases * 100,
-    min_cases = min(cases),
-    max_cases = max(cases)
-  ) %>%
-  arrange(desc(cum_n_cases))
-summary
-```
 
 ## Final exercise:
 
