@@ -93,14 +93,14 @@ summary(CO2)
 - Each observation has its own row
 - Each value has its own cell
 
-```{r Libraries}
+```{r}
 library(tidyr)
 library(dplyr)
 ```
 
 Explore the structure of `table1`. Is it tidy?
 
-```{r tab1}
+```{r}
 table1
 ```
 
@@ -131,7 +131,7 @@ who6 <- who5 %>%
 
 Time: 15 min
 
-```{r exercise3}
+```{r}
 # make a dataset who7 that would include only smear positive TB diagnosed from 1994 through 2012
 who7 <- who5 %>%
   filter(type == "sp", year >= 1994) %>%
@@ -145,7 +145,7 @@ If you are familiar with ggplot2, then you can optional visualize a bar plot of 
 
 ## Creating a simple data summary
 
-```{r who6}
+```{r}
 summary <- who6 %>%
   # group by country
   group_by(country) %>%
@@ -164,7 +164,7 @@ summary
 
 Explore the structure of the `table4a`.
 
-```{r tab4a}
+```{r}
 table4a
 ```
 
@@ -173,7 +173,7 @@ table4a
     - Would it be helpful to have columns `country`, `year`, and `cases` with counts?
     - Gather columns `1999` and `2000` into row values of a new column `year` and cases counts into values of a new column `cases`
 
-```{r tab4a_gather}
+```{r}
 table4a_tidy <- table4a %>%
   gather(key = "year", value = "cases", `1999`:`2000`)
 table4a_tidy
@@ -183,7 +183,7 @@ table4a_tidy
 
 Time: 5 min
 
-```{r tab4b_gather}
+```{r}
 # explore structure of `table4b`
 table4b
 
@@ -198,7 +198,7 @@ table4b_tidy
 
 Explore the structure of the `table2`
 
-```{r tab2}
+```{r}
 table2
 ```
 
@@ -210,7 +210,7 @@ table2
     - Each country has a row that contains all information needed to proceed with the calculation: year, number of cases, and the population size.
     - Spread the column `type` into two columns `cases` and `population`.
     
-```{r spread,}
+```{r}
 table2 %>%
     spread(key = type, value = count)
 ```
@@ -221,13 +221,13 @@ The `tidyr::who` dataset contains tuberculosis (TB) cases broken down by year, c
 
 Explore `who` data: are they tidy?
 
-```{r who}
+```{r}
 glimpse(who)
 ```
 
 `new_sp_m014` to `newrel_f65` are likely values, not variables. We don't know what those values represent yet, so we'll give them the generic name "key". We know the cells represent the count of cases, so we'll use the variable cases. Let's reshape these data:
 
-```{r who1}
+```{r}
 who1 <- who %>% 
   gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = TRUE)
 who1
@@ -255,7 +255,7 @@ The remaining numbers gives the age group. The dataset groups cases into seven a
 
 Fixing inconsistent column names (`new_sp_` but `newrel_`)
 
-```{r who2}
+```{r}
 who2 <- who1 %>% 
   mutate(key = gsub(pattern = "newrel", replacement = "new_rel", x = key))
 who2
@@ -263,7 +263,7 @@ who2
 
 Fixing an issue of having several values (e.g., description of the case, type of TB, sex, and age) are coded as one value:
 
-```{r who3}
+```{r}
 who3 <- who2 %>% 
   separate(key, c("new", "type", "sexage"), sep = "_")
 who3
@@ -271,7 +271,7 @@ who3
 
 Dropping redundant columns `new`, `iso2`, `iso3`:
 
-```{r who4}
+```{r}
 who4 <- who3 %>% 
   select(-new, -iso2, -iso3)
 str(who4)
@@ -279,7 +279,7 @@ str(who4)
 
 Separating `sexage` values:
 
-```{r who5}
+```{r}
 who5 <- who4 %>% 
   separate(sexage, c("sex", "age"), sep = 1)
 who5
@@ -289,7 +289,7 @@ who5
 
 Time: 10 min
 
-```{r separate}
+```{r}
 # explore the structure of the table3
 table3
 
@@ -315,7 +315,7 @@ Time: Until end of the session
 6. Create a concise summary of the data using `summarise()`.
 7. Arrange results of your summary using `arrange()`.
 
-```{r final exercise example, include=FALSE, eval=FALSE}
+```{r, include=FALSE, eval=FALSE}
 # 1
 summary_example <- who6 %>%
   # 2
