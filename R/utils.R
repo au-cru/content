@@ -1,6 +1,6 @@
 
 knitr::opts_chunk$set(comment = "#>", fig.path = "images/", dpi = 90,
-                      fig.height = 4, fig.width = 4)
+                      fig.height = 4, fig.width = 4, collapse = TRUE)
 
 add_video <- function(video_id_param) {
     if (!is.null(video_id_param)) {

@@ -501,8 +501,8 @@ div.tocify {
 <li>In past, file history saved on server</li>
 <li>Git is <em>distributed</em></li>
 </ul>
-<div id="htmlwidget-de9735dad24604303c13" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-de9735dad24604303c13">{"x":{"diagram":"\ngraph {\n    graph [rankdir = LR]\n    A [label = \"Full copy\n(mine)\"]\n    B [label = \"Full copy\n(yours)\"]\n    C [label = \"Full copy\n(theirs)\"]\n    A -- {B C}\n    B -- C\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1351640ceb4048254de4" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1351640ceb4048254de4">{"x":{"diagram":"\ngraph {\n    graph [rankdir = LR]\n    A [label = \"Full copy\n(mine)\"]\n    B [label = \"Full copy\n(yours)\"]\n    C [label = \"Full copy\n(theirs)\"]\n    A -- {B C}\n    B -- C\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="how-to-use-git-overview-common-commands" class="section level2">
 <h2>How to use Git overview: Common commands</h2>
@@ -526,13 +526,13 @@ div.tocify {
 </div>
 <div id="how-to-use-git-overview-areas" class="section level2">
 <h2>How to use Git overview: Areas</h2>
-<div id="htmlwidget-eb6c733e22ae3c0260bf" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eb6c733e22ae3c0260bf">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-926fa7f5490fc5cec16b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-926fa7f5490fc5cec16b">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="how-to-use-git-overview-remotes-aka-github" class="section level2">
 <h2>How to use Git overview: “Remotes” (aka GitHub)</h2>
-<div id="htmlwidget-021c420c8b9363083d06" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-021c420c8b9363083d06">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-eee6ca493a7b94ae35ed" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eee6ca493a7b94ae35ed">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 <hr>
