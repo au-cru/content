@@ -322,7 +322,7 @@ table1_rate %>%
 
 ## Converting to long form: `gather()`
 
-Compare the structure of the ``.
+Compare how `table1` looks normally and after converting to the long form with `gather()`.
 
 ```{r}
 table1
@@ -346,62 +346,48 @@ table1 %>%
               max = sum(values))
 ```
 
-## Final exercise:
+## Final exercise: Try to replicate an output.
 
-Time: Until end of the session
+Time: Until end of the session.
 
-1. Choose a dataset to work with.
-2. Create a new variable using `mutate()`.
-3. Select variables relevant for the future summary using `select()`.
-4. Filter data based on several row values using `filter()`.
-5. Group your data before summarising if necessary using `group_by()`.
-6. Create a concise summary of the data using `summarise()`.
-7. Arrange results of your summary using `arrange()`.
+Copy the code below and run it to get the dataset to use for this exercise. Using everything you learned in this session, try to recreate the table below from the dataset given.
 
-```{r, include=FALSE, eval=FALSE}
-# 1
-summary_example <- who6 %>%
-  # 2
-  mutate(
-    children = if_else(age == "014" & sex == "f", "girls",
-      if_else(age == "014" & sex == "m", "boys", "older")
-    )
-  ) %>%
-  # 3
-  select(-sex) %>%
-  # 4
-  filter(type == "sn", cases > 30, year > 2000) %>%
-  # 5
-  group_by(year, country) %>%
-  # 6
-  summarise(
-    sum_cases = sum(cases),
-    n_girl_cases = sum(cases[children == "girls"]),
-    pct_girl_cases = sum(cases[children == "girls"]) / sum(cases) * 100
-  ) %>%
-  # 7
-  arrange(desc(pct_girl_cases), sum_cases)
-summary_example
+```{r}
+library(ggplot2)
+economics_data <- economics %>% 
+    # get the year information
+    mutate(year = as.numeric(substr(date, 0, 4))) %>% 
+    as_tibble()
+economics_data
+```
+
+
+```{r, echo=FALSE}
+economics_data %>% 
+    filter(year >= 1990, year <= 2000) %>% 
+    mutate(unemploy_rate = unemploy / pop) %>% 
+    select(year, unemploy_rate, uempmed) %>% 
+    gather(variable, value, -year) %>% 
+    group_by(year, variable) %>% 
+    summarise(
+        Max = max(value),
+        Median = median(value),
+        Min = min(value)
+    ) %>% 
+    arrange(desc(year)) %>% 
+    knitr::kable(caption = "From the data above, try to recreate this data below in this table.")
 ```
 
 
 ## (If time) Converting to wide form with `spread()`
 
-Explore the structure of the `table2`
+To convert from long to wide, you use `spread()`.
 
 ```{r}
+# original
 table2
-```
 
-- Is `table2` tidy?
-    - Depends on what we plan to use it for.
-    - Later we would like to calculate the rate of the disease in each country per year: `rate = cases / 100,000 * population`.
-
-- What data structure is preferred?
-    - Each country has a row that contains all information needed to proceed with the calculation: year, number of cases, and the population size.
-    - Spread the column `type` into two columns `cases` and `population`.
-    
-```{r}
-table2 %>%
-    spread(key = type, value = count)
+# after spread
+table2 %>% 
+    spread(type, count)
 ```
