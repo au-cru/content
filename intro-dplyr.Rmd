@@ -1,5 +1,5 @@
 ---
-title: "Work with and manage your data efficiently in R: dplyr and tidyr"
+title: "Work with and manage your data efficiently in R with dplyr and tidyr"
 params:
     datetime: "2018-10-26"
     level: "Beginner" # or intermediate or advanced
