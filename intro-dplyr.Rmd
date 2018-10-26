@@ -292,7 +292,7 @@ ___ %>%
     select(___,  ___,  ___) 
 ```
 
-If you are familiar with ggplot2 from the ggplot2 session, then you can optional try to visualize a bar plot of the case counts on y-axis and year on x-axis, with sex as the fill.
+If you are familiar with ggplot2 from the ggplot2 session, then you can optional try to visualize the dataset.
 
 ## Create a summary of the data, alone or by a group(s): `group_by()`, `summarise()`
 
