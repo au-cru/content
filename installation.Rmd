@@ -6,6 +6,10 @@ title: "Installation instructions"
 
 For R, install from [here](https://cloud.r-project.org/index.html). For RStudio,
 install from [here](https://www.rstudio.com/products/rstudio/download/#download).
+We recommend you have the latest versions of both R and RStudio:
+
+- `r version$version.string`
+- RStudio version 1.1.456
 
 ## Git
 
