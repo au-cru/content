@@ -1,32 +1,59 @@
 ---
 title: "Making reproducible documents with R"
-bibliography: resources/references.bib
 params:
-    datetime: "2018-06-15"
-    level: "Intermediate" # or intermediate or advanced
-    video_id: "tPSSNF3yado" # Keep empty if no link yet.
-    instructor: "Luke Johnston"
-    language: "R" # Or Python or Bash or Shell or Git etc
+  datetime: '2018-11-09'
+  instructor: Luke Johnston
+  language: R
+  level: Intermediate
+  video_id: tPSSNF3yado
+bibliography: resources/references.bib
 ---
 
 ```{r setup, echo=FALSE}
 source("R/utils.R")
 ```
 
+## Session details
+
 - **Date of session**: `r format_date(params$datetime)`
 - **Instructor**: `r params$instructor`
 - **Session level**: `r params$level`
-- **Programming language**: `r params$language`
-`r add_video(params$video_id)`
+    - **Part of the ["Beginner Series"](index.html)**
+- **Required packages to install**:
 
-## Session content
+    ```{r, eval=FALSE}
+    install.packages(c("dplyr", "tidyr"))
+    # Or just use install tidyverse
+    # install.packages("tidyverse")
+    ```
 
-Much of the material was taken from these **resources**:
 
-- [RStudio tutorial on using RMarkdown](https://rmarkdown.rstudio.com/lesson-1.html)
-- [Markdown syntax guide](https://rmarkdown.rstudio.com/authoring_basics.html)
+### Objectives
 
-Otherwise, this is the code/syntax we covered:
+1. To learn how to generate high quality reports that can be shared with an broad audience.
+1. To create reproducible scripts that can be run with different data sets.
+1. To use Rstudio not as a data science tool but also as a text editor and compiler!
+
+**At the end of this session you will be able**:
+
+1. To learn about markdown syntax.
+2. To combine text and code in the same document.
+3. To include tables, figures, links and references to your document.
+4. To create your first report with Rmarkdown.
+
+## Resources for learning and help
+
+**For learning**:
+
+1. [RStudio tutorial on using RMarkdown](https://rmarkdown.rstudio.com/lesson-1.html)
+2. [Markdown syntax guide](https://rmarkdown.rstudio.com/authoring_basics.html)
+
+**For help**:
+
+1. [Rmarkdown Cheat sheet](http://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+  
+
+## Quickly get familiar with the markdown syntax
 
 ### Markdown syntax
 
@@ -117,6 +144,13 @@ Z
 > gives...
 >
 > > Block quote 
+
+
+### Exercise: construct a 
+
+
+
+
 
 ### R code in Markdown
 
