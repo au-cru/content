@@ -17,8 +17,8 @@ Make sure to follow the [installation instructions](installation.html).
 
 - [Introduction to visualising and plotting your data using ggplot2](intro-ggplot2.html)
 - [Work with and manage your data efficiently in R with dplyr and tidyr](intro-dplyr.html)
+- [Making reproducible documents with R](intro-rmarkdown.html)
 
 ## Misc sessions:
 
 - [Creating your own functions in R](functions.html)
-- [Making reproducible documents with R](rmarkdown.html)
