@@ -1,32 +1,64 @@
 ---
 title: "Making reproducible documents with R"
-bibliography: resources/references.bib
+output:
+  html_document: default
+  word_document: default
 params:
-    datetime: "2018-06-15"
-    level: "Intermediate" # or intermediate or advanced
-    video_id: "tPSSNF3yado" # Keep empty if no link yet.
-    instructor: "Luke Johnston"
-    language: "R" # Or Python or Bash or Shell or Git etc
+  datetime: '2018-11-09'
+  instructor: Luke Johnston
+  language: R
+  level: Intermediate
+  video_id: tPSSNF3yado
+bibliography: resources/references.bib
 ---
 
 ```{r setup, echo=FALSE}
 source("R/utils.R")
 ```
 
+## Session details
+
 - **Date of session**: `r format_date(params$datetime)`
 - **Instructor**: `r params$instructor`
 - **Session level**: `r params$level`
-- **Programming language**: `r params$language`
-`r add_video(params$video_id)`
+    - **Part of the ["Beginner Series"](index.html)**
+- **Required packages to install**:
 
-## Session content
+    ```{r, eval=FALSE}
+    install.packages(c("dplyr", "tidyr"))
+    # Or just use install tidyverse
+    # install.packages("tidyverse")
+    ```
 
-Much of the material was taken from these **resources**:
 
-- [RStudio tutorial on using RMarkdown](https://rmarkdown.rstudio.com/lesson-1.html)
-- [Markdown syntax guide](https://rmarkdown.rstudio.com/authoring_basics.html)
+### Objectives
 
-Otherwise, this is the code/syntax we covered:
+1. To learn how to generate high quality reports that can be shared with an broad audience.
+1. To create reproducible scripts that can be run with different data sets.
+1. To use Rstudio not as a data science tool but also as a text editor and compiler!
+
+**At the end of this session you will be able**:
+
+1. To learn about markdown syntax.
+2. To combine text and code in the same document.
+3. To include tables, figures, links and references to your document.
+4. To create your first report with Rmarkdown.
+
+## Resources for learning and help
+
+**For learning**:
+
+1. [RStudio tutorial on using RMarkdown](https://rmarkdown.rstudio.com/lesson-1.html)
+2. [Markdown syntax guide](https://rmarkdown.rstudio.com/authoring_basics.html)
+
+**For help**:
+
+- [RStudio helpful cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+- [R Markdown cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
+- [R Markdown reference cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+
+
+## Quickly get familiar with the markdown syntax
 
 ### Markdown syntax
 
@@ -84,6 +116,32 @@ Z
 > 2. item 2
 > 3. item 3
 
+#### Exercise 1: construct a sketch for a paper
+
+Time: 10 min
+
+Open RStudio and create an `Rmarkdown document`:
+
+**File -> New File -> R Markdown**
+
+Create a RMarkdown document containing the following structure: 
+
+- Abstract
+- Introduction
+- Results
+- Material and Methods
+- Discussion
+- Conclusion
+
+Compile it by pressing the icon `Knit to HTML`
+
+Now, try to write some information just below the **abstract section** (try to include some numbered and unumbered lists, bold and italic words in this text). 
+Compile the document again and see what happens.
+
+### Adding footnotes, pictures and links to your document
+
+Footnotes can be done using the following command:
+
 > ```
 > Footnote[^1]
 >
@@ -94,13 +152,17 @@ Z
 >
 > [^1]: Footnote content
 
+A .png .jpeg or .pdf image can be attached in the following way:
+
 > ```
-> ![image caption](images/try-science.png)
+> ![image caption](images/au_coders.jpeg)
 > ```
 >
 > gives...
 >
-> ![image caption](images/try-science.png)
+> ![image caption](images/au_coders.jpeg)
+
+And a link can be linked in the following format:
 
 > ```
 > [Link](https://google.com)
@@ -110,6 +172,8 @@ Z
 >
 > [Link](https://google.com)
 
+One can also create quotes:
+
 > ```
 > > Block quote 
 > ```
@@ -118,9 +182,19 @@ Z
 >
 > > Block quote 
 
+#### Exercise 2: hands on!
+
+Time: 10 min
+
+Now you are asked to include in your "skecthed article" what we just have learned.
+
+1. Include a picture with caption (of your research, or any .png you find in your PC).
+2. Include a footnote.
+3. Include the link of au.code webpage to your document.
+ 
 ### R code in Markdown
 
-You can insert plots by using including the code chunk like below:
+One of the most powerful and useful features of Rmarkdown, is its ability to combine text and code in the same document! You can insert plots by including a code chunk like below:
 
 <pre class="markdown"><code>&#96;&#96;&#96;{r plot_sepal, fig.cap="Figure title here", fig.height=8, fig.width=8, echo=FALSE}
 plot(Sepal.Length ~ Sepal.Width, data = iris)
@@ -140,9 +214,26 @@ You can also create tables by using the `kable()` in the knitr package.
 knitr::kable(head(iris), caption = "Table caption here")
 &#96;&#96;&#96;
 </code></pre>
+
 ```{r, echo=FALSE}
 knitr::kable(head(iris), caption = "Table caption here")
 ```
+
+For small not complex tables, one can also create it outside of a R chunck using the markdown syntex:
+This:
+```
+|       &nbsp;       | diverged | polymorphic |
+|:------------------:|:--------:|:-----------:|
+|   **synonymous**   |   1300   |    2109     |
+| **non-synonymous** |   700    |     891     |
+```
+gives...
+
+
+|       &nbsp;       | diverged | polymorphic |
+|:------------------:|:--------:|:-----------:|
+|   **synonymous**   |   1300   |    2109     |
+| **non-synonymous** |   700    |     891     |
 
 You can hide the code chunk but keep the output by using the `echo=FALSE` option:
 
@@ -157,7 +248,31 @@ model <- lm(Sepal.Length ~ Sepal.Width, data = iris)
 coef(model)
 ```
 
-You can use inline R code too, to insert numbers directly into the document.
+
+#### Exercise 3: adding plots and tables to your results section
+
+Time: 10 min
+
+You now need to create a chunck of code in the **Results section**. If you have any plot from your own research that you want to create feel free to do it so. Otherwise you can just use the iris data:
+
+1. Plot Sepal.length versus Sepal.Width. Include a caption and choose 6 X 10 dimensions.  
+2. Print a table with the mean and sd of each column of the iris dataset. Remember to output just the table and not the code! Use the following code:
+
+```
+#install.packages("dplyr")
+library(dplyr) 
+iris %>%
+  group_by_("Species") %>%
+  summarise_each_(funs=funs("mean", "sd"), vars=c("Sepal.Length", "Sepal.Width"))
+```
+
+3. Create a small table (2 columns) outside of the R chunk. 
+
+### Inline R codes and the power of citing with Rmarkdown
+
+Now that you have learned how to plots and tables to your results section, it is time to go to the **Discussion section**. A powerful feature of R markdown is its syntex simplicity. 
+
+You can use for example a inline R code too, to insert numbers directly into the document.
 
 Use this: The estimate is <code>&#96;r round(coef(model)[2], 2)&#96;</code>... to get this:
 The estimate is `r round(coef(model)[2], 2)`.
@@ -167,10 +282,18 @@ like: [@Hoejsgaard2006a]... the reference is inserted onto the bottom of the
 document. You need to add a line like this `bibliography: bibfile.bib` to the top
 YAML header (e.g. right below where you put the `title` and `author`)
 
-## Other resources
+#### Exercise 4: quick R calculations and inserting citations to your document
+Time: Until end of session
 
-- [RStudio helpful cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
-- [R Markdown cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
-- [R Markdown reference cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+Now you are asked:
+
+1. To calculate the correlation between Sepal.Length and Sepal.Width inline (outside of the R chunck). 
+2. To create a new document (in the same directory as this document is placed) and include a reference of the paper you most like! 
+3. Cite this paper in the **discussion section** of your document.
+4. Compile it again, and see what happens!
+
+
+We hope we have convincend you that Rmarkdown is a powerful tool for reproducibility and for creating pretty reports! Chuncks can also compile different languages than R, making life easier!
+
 
 # References (add this to separate the ref list)
