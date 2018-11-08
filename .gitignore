@@ -3,4 +3,7 @@
 .RData
 .Ruserdata
 .Rbuildignore
+.DS_Store
+
+images/unnamed-chunk*.png
 
