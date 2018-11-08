@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Making reproducible documents with R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<style type="text/css">
+table {
+    border-collapse: collapse;
+}
+thead {
+    border-top: solid #DCDCDC;
+    border-bottom: solid #DCDCDC;
+}
+tr.odd {
+    background-color: #F8F8F8;
+}
+tr:last-child {
+    border-bottom: solid #DCDCDC;
+}
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">AU Open Coders</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://au-oc.github.io">Main site</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Making reproducible documents with R</h1>
+
+</div>
+
+
+<div id="session-details" class="section level2">
+<h2>Session details</h2>
+<ul>
+<li><strong>Date of session</strong>: 09 Nov, 2018</li>
+<li><strong>Instructor</strong>: Luke Johnston
+<ul>
+<li><strong>Contributions from</strong>: Maria Izabel Cavassim Alves (<a href="https://github.com/izabelcavassim">@izabelcavassim</a>)</li>
+</ul></li>
+<li><strong>Session level</strong>: Beginner
+<ul>
+<li><strong>Part of the <a href="index.html">“Beginner Series”</a></strong></li>
+</ul></li>
+<li><p><strong>Required packages to install</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;rmarkdown&quot;</span>, <span class="st">&quot;knitr&quot;</span>))</a></code></pre></div></li>
+</ul>
+<div id="objectives" class="section level3">
+<h3>Objectives</h3>
+<ol style="list-style-type: decimal">
+<li>To become aware of the importance of reproducibility of data analyses.</li>
+<li>To learn how to generate high quality reports that can be shared with a broader audience.</li>
+<li>To create reproducible documents interwoven with R code that can be run on updated or different data sets.</li>
+<li>To use Rstudio not as a data science tool but also as a text editor and compiler!</li>
+<li>To know where to go for continued learning.</li>
+</ol>
+<p><strong>At the end of this session you will be able</strong>:</p>
+<ul>
+<li>Create a new RMarkdown document.</li>
+<li>Write text, headers, citations, and other report writing tasks in Markdown.</li>
+<li>Insert R code chunks that will create figures, tables, or numbers.</li>
+<li>Generate an analytically reproducible Word or HTML document.</li>
+</ul>
+</div>
+</div>
+<div id="resources-for-learning-and-help" class="section level2">
+<h2>Resources for learning and help</h2>
+<p><strong>For learning</strong>:</p>
+<ul>
+<li><a href="https://rmarkdown.rstudio.com/lesson-1.html">RStudio tutorial on using RMarkdown</a></li>
+<li><a href="https://rmarkdown.rstudio.com/authoring_basics.html">Markdown syntax guide</a></li>
+<li><a href="https://bookdown.org/yihui/rmarkdown/">Online book for RMarkdown</a></li>
+<li><a href="http://r4ds.had.co.nz/">R for Data Science</a>
+<ul>
+<li><a href="https://r4ds.had.co.nz/r-markdown.html#r-markdown">R Markdown chapter</a></li>
+</ul></li>
+</ul>
+<p><strong>For help</strong>:</p>
+<ul>
+<li><a href="https://www.rstudio.com/resources/cheatsheets/">RStudio helpful cheatsheets</a></li>
+<li><a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf">R Markdown cheatsheet</a></li>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">R Markdown reference cheatsheet</a></li>
+</ul>
+</div>
+<div id="why-try-to-be-reproducible" class="section level2">
+<h2>Why try to be reproducible?</h2>
+<p>Well, first thing, reproducibility and replicability is a cornerstone of doing science. However, the current concept of reproducibility relates more to computational reproducibility: Hypothetically, if you gave someone your data, your code, and your paper, would they be able to generate the exact same numbers you report in your manuscript and in your tables and figures? Research shows that this is not at all the case… even when the same researcher tries to reproducible their own paper!</p>
+<p>Being reproducible and writing a reproducible document/manuscript does several things for you:</p>
+<ol style="list-style-type: decimal">
+<li>Makes your science better.</li>
+<li>Makes you more efficient and productive, since less time is spent between coding and putting your results in the document.</li>
+<li>Makes you more confident in your results, since what you report is what you actually got from the analysis.</li>
+<li>Its actually a lot of fun! ;)</li>
+</ol>
+<p>Let’s get to learning about R Markdown!</p>
+</div>
+<div id="markdown-syntax" class="section level2">
+<h2>Markdown syntax</h2>
+<div id="headers" class="section level3">
+<h3>Headers</h3>
+<p>Such as for a section, subsection, subsubsection, etc.</p>
+<blockquote>
+<p><code># Header 1</code></p>
+<p>gives…</p>
+<h1 id="header-1">Header 1</h1>
+</blockquote>
+<blockquote>
+<p><code>## Header 2</code></p>
+<p>gives…</p>
+<h2 id="header-2">Header 2</h2>
+</blockquote>
+<blockquote>
+<p><code>### Header 3</code></p>
+<p>gives…</p>
+<h3 id="header-3">Header 3</h3>
+</blockquote>
+</div>
+<div id="text-formatting" class="section level3">
+<h3>Text formatting</h3>
+<ul>
+<li><code>**bold**</code> gives <strong>bold</strong>.</li>
+<li><code>*italics*</code> gives <em>italics</em>.</li>
+<li><code>super^script^</code> gives super<sup>script</sup>.</li>
+<li><code>sub~script~</code> gives sub<sub>script</sub>.</li>
+</ul>
+</div>
+<div id="lists" class="section level3">
+<h3>Lists</h3>
+<p>Unnumbered list:</p>
+<blockquote>
+<pre><code>- item 1
+- item 2
+- item 3</code></pre>
+<p>gives…</p>
+<ul>
+<li>item 1</li>
+<li>item 2</li>
+<li>item 3</li>
+</ul>
+</blockquote>
+<p>Numbered list:</p>
+<blockquote>
+<pre><code>1. item 1
+2. item 2
+3. item 3</code></pre>
+<p>gives…</p>
+<ol style="list-style-type: decimal">
+<li>item 1</li>
+<li>item 2</li>
+<li>item 3</li>
+</ol>
+</blockquote>
+</div>
+<div id="block-quotes" class="section level3">
+<h3>Block quotes</h3>
+<p>One can also create quotes:</p>
+<blockquote>
+<pre><code>&gt; Block quote </code></pre>
+<p>gives…</p>
+<blockquote>
+<p>Block quote</p>
+</blockquote>
+</blockquote>
+</div>
+<div id="exercise-construct-an-outline-for-a-hypthetical-paper" class="section level3">
+<h3>Exercise: Construct an outline for a (hypthetical) paper</h3>
+<p>Time: 10 min</p>
+<p>Open RStudio and create an <code>R Markdown</code> document:</p>
+<p><strong>File -&gt; New File -&gt; R Markdown</strong></p>
+<p>Save the file and call the file <code>exercise.Rmd</code>. In the R Markdown document, include the following “Header 1” <code>#</code> sections:</p>
+<ul>
+<li>Abstract</li>
+<li>Introduction</li>
+<li>Material and Methods</li>
+<li>Results</li>
+<li>Discussion</li>
+<li>Conclusion</li>
+</ul>
+<p>Compile it by pressing the icon <code>Knit to HTML</code> or by typing <code>Ctrl-Shift-K</code>. Then:</p>
+<ul>
+<li>Write some random words below the <strong>Abstract section</strong>, while using bold and italics.</li>
+<li>Include an unnumbered list below <strong>Introduction</strong> listing two or three fake objectives.</li>
+<li>Include a “Header 2” (<code>##</code>) called “Statistical analysis” below “Material and Methods”.</li>
+</ul>
+<p>Compile (“knit”&quot;) the document again and see what happens.</p>
+</div>
+<div id="adding-footnotes-pictures-and-links-to-your-document" class="section level3">
+<h3>Adding footnotes, pictures, and links to your document</h3>
+<p>Footnotes can be done using the following command:</p>
+<blockquote>
+<pre><code>Footnote[^1]
+
+[^1]: Footnote content</code></pre>
+<p>gives…</p>
+<p>Footnote<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+</blockquote>
+<p>A .png .jpeg or .pdf image can be attached in the following way:</p>
+<blockquote>
+<pre><code>![image caption](images/au_coders.jpeg)</code></pre>
+<p>gives…</p>
+<div class="figure">
+<img src="images/au_coders.jpeg" alt="image caption" />
+<p class="caption">image caption</p>
+</div>
+</blockquote>
+<p>And a link can be linked in the following format:</p>
+<blockquote>
+<pre><code>[Link](https://google.com)</code></pre>
+<p>gives…</p>
+<p><a href="https://google.com">Link</a></p>
+</blockquote>
+</div>
+<div id="exercise-add-more-to-your-markdown-document" class="section level3">
+<h3>Exercise: Add more to your Markdown document!</h3>
+<p>Time: 8 min</p>
+<p>Now you are asked to include in your “skecthed article” what we just have learned.</p>
+<ol style="list-style-type: decimal">
+<li>Include a random picture with caption (of your research or of any .png you find in your PC).</li>
+<li>Include a footnote.</li>
+<li>Include the link of the AUOC webpage (<code>https://au-oc.github.io</code>) in your document.</li>
+</ol>
+</div>
+</div>
+<div id="the-best-part-inserting-r-code" class="section level2">
+<h2>The best part! Inserting R code</h2>
+<p>One of the most powerful and useful features of Rmarkdown, is its ability to combine text and code in the same document! You can insert plots by including a code chunk like below. The options added to the code chunk tell it to add a caption, and set the height and width of the figure.</p>
+<pre class="markdown"><code>&#96;&#96;&#96;{r plot_sepal, fig.cap="Figure title here", fig.height=8, fig.width=8, echo=FALSE}
+plot(Sepal.Length ~ Sepal.Width, data = iris)
+&#96;&#96;&#96;
+</code></pre>
+<div class="figure">
+<img src="images/intro_rmd_plot_sepal-1.png" alt="Figure title here" width="720" />
+<p class="caption">
+Figure title here
+</p>
+</div>
+<p>You can also create tables by using the <code>kable()</code> function in the knitr package.</p>
+<pre class="markdown"><code>&#96;&#96;&#96;{r}
+knitr::kable(head(iris), caption = "Table caption here")
+&#96;&#96;&#96;
+</code></pre>
+<table>
+<caption>Table caption here</caption>
+<thead>
+<tr class="header">
+<th align="right">Sepal.Length</th>
+<th align="right">Sepal.Width</th>
+<th align="right">Petal.Length</th>
+<th align="right">Petal.Width</th>
+<th align="left">Species</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5.1</td>
+<td align="right">3.5</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="even">
+<td align="right">4.9</td>
+<td align="right">3.0</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="odd">
+<td align="right">4.7</td>
+<td align="right">3.2</td>
+<td align="right">1.3</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="even">
+<td align="right">4.6</td>
+<td align="right">3.1</td>
+<td align="right">1.5</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="odd">
+<td align="right">5.0</td>
+<td align="right">3.6</td>
+<td align="right">1.4</td>
+<td align="right">0.2</td>
+<td align="left">setosa</td>
+</tr>
+<tr class="even">
+<td align="right">5.4</td>
+<td align="right">3.9</td>
+<td align="right">1.7</td>
+<td align="right">0.4</td>
+<td align="left">setosa</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>knitr::</code> part of the code tells R where the <code>kable</code> function comes from. So the <code>::</code> is telling R “hey, look in the knitr package for the kable function”.</p>
+<p>For small and not too complex tables, you can also create it outside of a R chunk using the Markdown syntax:</p>
+<pre><code>|       &amp;nbsp;       | diverged | polymorphic |
+|:------------------:|:--------:|:-----------:|
+|   **synonymous**   |   1300   |    2109     |
+| **non-synonymous** |   700    |     891     |</code></pre>
+<p>gives…</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">diverged</th>
+<th align="center">polymorphic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>synonymous</strong></td>
+<td align="center">1300</td>
+<td align="center">2109</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>non-synonymous</strong></td>
+<td align="center">700</td>
+<td align="center">891</td>
+</tr>
+</tbody>
+</table>
+<p>You can hide the code chunk but keep the output by using the <code>echo=FALSE</code> option:</p>
+<pre class="markdown"><code>&#96;&#96;&#96;{r, echo=FALSE}
+cor(iris$Sepal.Length, iris$Sepal.Width)
+&#96;&#96;&#96;
+</code></pre>
+<pre><code>#&gt; [1] -0.1175698</code></pre>
+<div id="inline-r-code" class="section level3">
+<h3>Inline R code</h3>
+<p>You can also include R code within the text. You can use this to directly insert numbers into the text of the document. By using something like:</p>
+<blockquote>
+<p>The mean of the sepal length is <code>`r round(mean(iris$Sepal.Length), 2)`</code>.</p>
+<p>Gives…</p>
+<p>The mean of the sepal length is 5.84.</p>
+</blockquote>
+</div>
+<div id="exercise-add-a-plot-and-table-to-results" class="section level3">
+<h3>Exercise: Add a plot and table to “Results”</h3>
+<p>Time: 10 min</p>
+<p>You now need to create a chunck of code in the <strong>Results section</strong>. If you have any plot from your own research that you want to create feel free to do it so. Otherwise you can just use the iris data:</p>
+<ol style="list-style-type: decimal">
+<li><p>Use <code>names(CO2)</code> to find the names of columns from the CO2 dataset. Choose two columns. Create a code chunk with a caption <code>fig.cap</code> option and the <code>fig.width</code> of 10 and a <code>fig.height</code> of 6. Include in the code chunk the function, replacing the <code>__</code> with the two columns you chose:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(___ <span class="op">~</span><span class="st"> </span>___, <span class="dt">data =</span> CO2)</a></code></pre></div></li>
+<li>Create a table of the <code>head()</code> of the <code>CO2</code> dataset using the R function <code>knitr::kable()</code>.</li>
+<li>Create an inline R code that shows the sum of 2 plus 2 (<code>2 + 2</code>).</li>
+<li><p>Try to make a similar table as the one below, but using your own Markdown syntax in your document.</p></li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Weather</th>
+<th>Activity</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sunny</td>
+<td>Beach or biking</td>
+</tr>
+<tr class="even">
+<td>Snowy</td>
+<td>Movies or reading</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="other-features" class="section level2">
+<h2>Other features</h2>
+<div id="citing-literature-with-rmarkdown" class="section level3">
+<h3>Citing literature with Rmarkdown</h3>
+<p>If you want to insert a citation use <code>[@Hoejsgaard2006a]</code> to get it to look like: <span class="citation">(Højsgaard, Halekoh, and Yan 2006)</span>… the reference is then inserted onto the bottom of the document. You need to add a line to the YAML header like this:</p>
+<pre><code>---
+title: &quot;My report&quot;
+author: &quot;Me!&quot;
+bibliography: my_references.bib
+---</code></pre>
+</div>
+<div id="making-your-report-prettier" class="section level3">
+<h3>Making your report prettier</h3>
+<p>This really only applies to HTML and PDF<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> documents. If you want to change the theme, add an option to the YAML header so it looks like:</p>
+<pre><code>---
+title: &quot;My report&quot;
+output:
+    html_document:
+        theme: sandstone
+---</code></pre>
+<p>Check out the R Markdown <a href="https://bookdown.org/yihui/rmarkdown/html-document.html#appearance-and-style">documentation</a> for more types of themes you can use for HTML documents.</p>
+</div>
+</div>
+<div id="ending-remarks" class="section level2">
+<h2>Ending remarks</h2>
+<p>We hope that we’ve shown the power that comes with using R Markdown and that we’ve convinced you enough to try using R Markdown for writing your reports! Believe us, it can save soooo much time in the end after you’ve learned how to incorporate text with R code when writing any type of document that relies on results from data analysis or presentation. R Markdown is a powerful tool for reproducibility and for creating beautiful reports! There are many other amazing features of R Markdown that you can learn about from the resources above. Try it out and learn more about it!</p>
+</div>
+<div id="references-add-this-at-end-to-separate-the-ref-list" class="section level1 unnumbered">
+<h1>References (add this at end to separate the ref list)</h1>
+<div id="refs" class="references">
+<div id="ref-Hoejsgaard2006a">
+<p>Højsgaard, Søren, Ulrich Halekoh, and Jun Yan. 2006. “The R Package Geepack for Generalized Estimating Equations.” <em>Journal of Statistical Software</em> 15/2: 1–11.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Footnote content<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Knitting to PDF will require that you install LaTeX using the <a href="https://yihui.name/tinytex/r/">tinytex</a> R package. After you install LaTeX you can create truly beautifully typeset PDF documents.<a href="#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+<hr>
+
+<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. See the <a href="LICENSE.html">licensing</a> page for more details about copyright information.</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
