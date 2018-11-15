@@ -19,6 +19,10 @@ Make sure to follow the [installation instructions](installation.html).
 - [Work with and manage your data efficiently in R with dplyr and tidyr](intro-dplyr.html)
 - [Making reproducible documents with R](intro-rmarkdown.html)
 
+### Package creation
+
+- [Setup and start creating your own package in R](pkg-creation.html)
+
 ## Misc sessions:
 
 - [Creating your own functions in R](functions.html)
