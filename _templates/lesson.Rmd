@@ -5,10 +5,9 @@ params:
     level: "" # or intermediate or advanced
     video_id: "" # Remove if no video
     instructor: "Your name here"
-    language: "R" # Or Python or Bash or Shell or Git etc
 ---
 
-```{r setup}
+```{r setup, include=FALSE}
 source("R/utils.R")
 ```
 
@@ -17,10 +16,22 @@ source("R/utils.R")
 - **Date of session:** `r format_date(params$datetime)`
 - **Instructor:** `r params$instructor`
 - **Session level:** `r params$level`
-- **Programming language:** `r params$language`
+    - **Part of the ["<name> Series"](index.html)**
+- **Required packages to install**:
+
+    ```{r, eval=FALSE}
+    install.packages(c("devtools", "usethis"))
+    ```
+
 `r add_video(params$video_id)`
 
-## Session content
+### Objectives
 
-Fill in content here using markdown.
+1. item
+1. item
 
+**At the end of this session you will be able:**
+
+## Resources for learning and help
+
+## Lesson content
