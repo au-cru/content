@@ -1,0 +1,83 @@
+---
+title: "Setup and start creating your own package in R"
+params:
+    datetime: "2018-11-16"
+    level: "Intermediate" # or intermediate or advanced
+    instructor: "Luke Johnston"
+---
+
+```{r setup, include=FALSE}
+source("R/utils.R")
+```
+
+## Session details
+
+- **Date of session:** `r format_date(params$datetime)`
+- **Instructor:** `r params$instructor`
+- **Session level**: `r params$level`
+    - **Part of the ["Package Development Series"](index.html)**
+- **Required packages to install**:
+
+    ```{r, eval=FALSE}
+    install.packages(c("devtools", "usethis"))
+    ```
+
+### Objectives
+
+1. To see that making packages is not as difficult as it seems.
+1. To 
+1. To learn about and use the tools to develop packages.
+1. 
+
+**At the end of this session you will be able:**
+
+1. Setup up the necessary folders and files for making a package.
+1. Fill out some package description information.
+1. Include some functions in your package.
+1. Install your package.
+
+## Resources for learning and help
+
+- [R Packages](http://r-pkgs.had.co.nz/) online (free) book
+- [Creating an R package pictorial tutorial](http://www.mjdenny.com/R_Package_Pictorial.html)
+- [Package development cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/06/devtools-cheatsheet.pdf)
+- [DataCamp R package course](https://www.datacamp.com/courses/developing-r-packages)
+(with a DataCamp subscription)
+
+## List of functions and files covered
+
+**Functions**:
+
+- `usethis::create_package()`
+- `usethis::use_r()`
+- `usethis::use_usethis()`
+- `usethis::use_readme_md()`
+- `devtools::document()`
+- `devtools::build()` / `devtools::install()`
+
+**Files**:
+
+- `DESCRIPTION`
+- `NAMESPACE`
+- `R/`
+- `README.md`
+
+## Creating a package
+
+```{r, eval=FALSE}
+pkg_path <- file.path(tempdir(), "testing")
+usethis::create_package(pkg_path)
+```
+
+```{r}
+library(stringr)
+fs::dir_ls(pkg_path, all = TRUE, recursive = TRUE)
+
+```
+
+
+Outline:
+
+- package setup and naming
+- RStudio project options
+- 
