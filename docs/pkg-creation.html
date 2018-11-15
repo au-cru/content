@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Setup and start creating your own package in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<style type="text/css">
+table {
+    border-collapse: collapse;
+}
+thead {
+    border-top: solid #DCDCDC;
+    border-bottom: solid #DCDCDC;
+}
+tr.odd {
+    background-color: #F8F8F8;
+}
+tr:last-child {
+    border-bottom: solid #DCDCDC;
+}
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">AU Open Coders</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://au-oc.github.io">Main site</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Setup and start creating your own package in R</h1>
+
+</div>
+
+
+<div id="session-details" class="section level2">
+<h2>Session details</h2>
+<ul>
+<li><strong>Date of session:</strong> 16 Nov, 2018</li>
+<li><strong>Instructor:</strong> Luke Johnston</li>
+<li><strong>Session level</strong>: Intermediate
+<ul>
+<li><strong>Part of the <a href="index.html">“Package Development Series”</a></strong></li>
+</ul></li>
+<li><p><strong>Required packages to install</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;usethis&quot;</span>))</a></code></pre></div></li>
+</ul>
+<div id="objectives" class="section level3">
+<h3>Objectives</h3>
+<ol style="list-style-type: decimal">
+<li>To see that making packages is not as difficult as it seems.</li>
+<li>To learn about and use the tools to simplify and automate package development.</li>
+<li>To provide the resources to expand your knowledge on package development.</li>
+</ol>
+<p><strong>At the end of this session you will be able:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Setup up the necessary folders and files for making a package.</li>
+<li>Fill out some package description information (in the <code>DESCRIPTION</code> and <code>README.md</code> files).</li>
+<li>Include some functions in your package (in the <code>R/</code> folder).</li>
+<li>Install your package.</li>
+</ol>
+</div>
+</div>
+<div id="resources-for-learning-and-help" class="section level2">
+<h2>Resources for learning and help</h2>
+<ul>
+<li><a href="http://r-pkgs.had.co.nz/">R Packages</a> online (free) book</li>
+<li><a href="http://www.mjdenny.com/R_Package_Pictorial.html">Creating an R package, a pictorial tutorial</a></li>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2015/06/devtools-cheatsheet.pdf">Package development cheatsheet</a></li>
+<li><a href="https://devtools.r-lib.org/">devtools package website</a></li>
+<li><a href="https://usethis.r-lib.org/">usethis package website</a></li>
+<li><a href="https://www.datacamp.com/courses/developing-r-packages">DataCamp R package course</a> (with a DataCamp subscription)</li>
+</ul>
+</div>
+<div id="list-of-functions-and-files-covered" class="section level2">
+<h2>List of functions and files covered</h2>
+<p><strong>Functions</strong>:</p>
+<ul>
+<li><code>usethis::create_package()</code></li>
+<li><code>usethis::use_r()</code></li>
+<li><code>usethis::use_readme_md()</code></li>
+<li><code>usethis::use_mit_license()</code></li>
+<li><code>devtools::load_all()</code> (Ctrl-Shift-L)</li>
+<li><code>devtools::build()</code> / <code>devtools::install()</code> (Ctrl-Shift-B)</li>
+<li><code>usethis::use_usethis()</code></li>
+</ul>
+<p><strong>Files</strong>:</p>
+<ul>
+<li><code>DESCRIPTION</code></li>
+<li><code>NAMESPACE</code></li>
+<li><code>R/</code></li>
+<li><code>README.md</code></li>
+<li><code>LICENSE</code></li>
+</ul>
+</div>
+<div id="creating-and-naming-a-package" class="section level2">
+<h2>Creating and naming a package</h2>
+<p>First thing is first: An R package is simply a collection of R functions saved on your computer that make it easy to access by using the <code>library()</code> command. When you make an R package, it does <em>not</em> get uploaded online, it does <em>not</em> mean other people can use it right away. At the beginning, the R package is only available to you and to your computer. That’s it. So why would you want to create a package? Well, it can save time later with other data analyses since you can access your functions across files by using <code>library(&lt;yourpackagename&gt;)</code>. A package bundles related code together, simplifying your life! Alright, that’s done with, next step!</p>
+<p>Creating the initial setup of files and folders necessary for an R package is incredibly easy with the usethis package! But! Before we begin, it’s a good idea to think about what the name of the package should be. You can name it whatever you want, as long as it is not “base”, “stats”, “graphics”, “utils”, “tools”, “methods”, or any other default base R package. Generally, name it something that is pretty unique or specific to you. For this session, let’s call it by your initials (or mine “lwj”) and add “helpers”… so:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">create_package</span>(<span class="st">&quot;lwj.helpers&quot;</span>)</a></code></pre></div>
+<pre><code>✔ Setting active project to &#39;/tmp/RtmpL6a5kF/lwj.helpers&#39;
+✔ Creating &#39;R/&#39;
+✔ Creating &#39;man/&#39;
+✔ Writing &#39;DESCRIPTION&#39;
+✔ Writing &#39;NAMESPACE&#39;</code></pre>
+<p>A bunch of things are shown on your console. These are just some information that usethis is telling you that it has done. Otherwise, you now have the beginning of an R package! Pretty easy eh??</p>
+</div>
+<div id="rstudio-project-options" class="section level2">
+<h2>RStudio project options</h2>
+<p>Before we get into the package details more, let’s make some edits to the project options. We’ll change the “General” options to all “No” and check that the “Build Tools” has correctly set the project as a package.</p>
+</div>
+<div id="files-and-folders" class="section level2">
+<h2>Files and folders</h2>
+<p>There are many things that make an R package, well, an R package. One of them is the folder and file structure. All R packages must have certain files and folders in order to properly install.</p>
+<p><strong>Required</strong>:</p>
+<ul>
+<li><code>R/</code>: This folder contains the code that is available when the package is installed. R files should only be in this folder, hence why it is called the <code>R/</code> folder! Covered more below.</li>
+<li><code>DESCRIPTION</code>: Contains all the necessary information about the package, such as author, version number, name, brief description, and the package dependencies. This file is more of the “machine-readable” metadata of the package. Covered more below.</li>
+<li><code>NAMESPACE</code>: Tells R which functions are available to use from the package. At first, this file contains a command to list all functions that are in the <code>R/</code> folder. We won’t cover this file too much during this session.</li>
+</ul>
+<p><strong>Optional, but very helpful</strong>:</p>
+<ul>
+<li><code>.Rbuildignore</code>: This file let’s R know what to ignore when you install your package (for instance, the <code>.Rproj</code> file).</li>
+<li>The <code>.Rproj</code> file: Let’s RStudio know that the directory is an <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">RStudio Project</a> and that it is a package. Adds some package development functionality to RStudio.</li>
+</ul>
+</div>
+<div id="package-metadata" class="section level2">
+<h2>Package metadata</h2>
+<p>As mentioned above, there are two main files for providing package “metadata”. Firstly, there is the <code>DESCRIPTION</code>, which is required for making a package. There are several data-fields in the file:</p>
+<pre><code>Package: lwj.helpers
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R (parsed):
+    * First Last &lt;first.last@example.com&gt; [aut, cre]
+Description: What the package does (one paragraph).
+License: What license it uses
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)</code></pre>
+<p>The important data-fields are the <code>Title</code>, <code>Authors</code>, <code>Description</code>, and <code>License</code> (get to this more later). Ok, let’s open up the file and make the edits.</p>
+<blockquote>
+<p><strong>Exercise</strong> (3-5 min): Open the <code>DESCRIPTION</code> file and change the title, author, and description fields.</p>
+</blockquote>
+<p>The next optional, but important file to have as “human-readable metadata” is the <code>README.md</code> file. Right now it doesn’t exist. But we can create it using:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_readme_md</span>()</a></code></pre></div>
+<pre><code>✔ Writing &#39;README.md&#39;</code></pre>
+<p>The file looks like this:</p>
+<pre><code># lwj.helpers
+
+The goal of lwj.helpers is to ...
+
+## Installation
+
+You can install the released version of lwj.helpers from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages(&quot;lwj.helpers&quot;)
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+## basic example code
+```</code></pre>
+<p>The <code>README.md</code> file is a <a href="https://rmarkdown.rstudio.com/authoring_basics.html">markdown</a> file. We covered <a href="intro-rmarkdown.html">markdown in a previous session</a>. Generally, this file is a brief documentation containing a high level summary of what the package does, how to install it, and sometimes a simple example of how to use it. It should be written and targetted to other (potential) users, or yourself 9 months in the future (you’ll thank yourself). Ok, this file right now has some things that need to be changed. Let’s edit it.</p>
+<blockquote>
+<p><strong>Exercise</strong> (5 min): Write a (fake) goal and description of the package in the <code>README.md</code> file. Remove the text in the “Installation” section for now. Delete the “Example” section.</p>
+</blockquote>
+<p>Next we want to add the license. The license is really important, even if you never put your package online. The license gives information about how other people can use and modify your code. We won’t cover the legal details about licensing, but for now, I would recommend using an <a href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># usethis::use_mit_license(&quot;&lt;your name&gt;&quot;)</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">usethis<span class="op">::</span><span class="kw">use_mit_license</span>(<span class="st">&quot;Luke Johnston&quot;</span>)</a></code></pre></div>
+<pre><code>✔ Setting License field in DESCRIPTION to &#39;MIT + file LICENSE&#39;
+✔ Writing &#39;LICENSE.md&#39;
+✔ Adding &#39;^LICENSE\\.md$&#39; to &#39;.Rbuildignore&#39;
+✔ Writing &#39;LICENSE&#39;</code></pre>
+<p>The contents of the LICENSE file are:</p>
+<pre><code>YEAR: 2018
+COPYRIGHT HOLDER: Luke Johnston</code></pre>
+</div>
+<div id="adding-r-code" class="section level2">
+<h2>Adding R code</h2>
+<p>Now for the main reason you have created a package! To put your R code in it so you can use the code easily in other scripts! To create an R script in the package, use:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># usethis::use_r(&quot;&lt;filename&gt;&quot;)</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">usethis<span class="op">::</span><span class="kw">use_r</span>(<span class="st">&quot;addition&quot;</span>)</a></code></pre></div>
+<pre><code>● Edit R/addition.R</code></pre>
+<p>An R script will open in RStudio. Now, let’s add a function to it. We’ll use a very simple function in file:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">addition &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">    x <span class="op">+</span><span class="st"> </span>y</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">}</a></code></pre></div>
+<p>Now save. To test that it works, now we run the next command:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">load_all</span>()</a></code></pre></div>
+<p>Or type “Ctrl-Shift-L”. In the console, test if the function works:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">addition</span>(<span class="dv">2</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; [1] 4</span></a></code></pre></div>
+<p>It should work! We’ll add some more functions and play around with the R scripts.</p>
+</div>
+<div id="building-and-installing" class="section level2">
+<h2>Building and installing</h2>
+<p>Now, the final step! Let’s build and install the package! When you feel your package is ready, time to install it for you to use with <code>library()</code>! And you can install it by using…:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install</span>()</a></code></pre></div>
+<p>Or by typing “Ctrl-Shift-B”. It does some quick checks, and if all goes well, you now have installed your package!</p>
+</div>
+<div id="other-useful-functions" class="section level2">
+<h2>Other useful functions</h2>
+<p>If you end up developing R packages often, I would recommend running this command:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_usethis</span>()</a></code></pre></div>
+<p>This let’s you add some code to automatically load when you open up R, to make it easier to continue your package development!</p>
+</div>
+
+<hr>
+
+<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. See the <a href="LICENSE.html">licensing</a> page for more details about copyright information.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
