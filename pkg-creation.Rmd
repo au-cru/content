@@ -8,6 +8,8 @@ params:
 
 ```{r setup, include=FALSE}
 source("R/utils.R")
+library(magrittr)
+knitr::opts_chunk$set(comment = "")
 ```
 
 ## Session details
@@ -25,22 +27,23 @@ source("R/utils.R")
 ### Objectives
 
 1. To see that making packages is not as difficult as it seems.
-1. To 
-1. To learn about and use the tools to develop packages.
-1. 
+1. To learn about and use the tools to simplify and automate package development.
+1. To provide the resources to expand your knowledge on package development.
 
 **At the end of this session you will be able:**
 
 1. Setup up the necessary folders and files for making a package.
-1. Fill out some package description information.
-1. Include some functions in your package.
+1. Fill out some package description information (in the `DESCRIPTION` and `README.md` files).
+1. Include some functions in your package (in the `R/` folder).
 1. Install your package.
 
 ## Resources for learning and help
 
 - [R Packages](http://r-pkgs.had.co.nz/) online (free) book
-- [Creating an R package pictorial tutorial](http://www.mjdenny.com/R_Package_Pictorial.html)
+- [Creating an R package, a pictorial tutorial](http://www.mjdenny.com/R_Package_Pictorial.html)
 - [Package development cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/06/devtools-cheatsheet.pdf)
+- [devtools package website](https://devtools.r-lib.org/)
+- [usethis package website](https://usethis.r-lib.org/)
 - [DataCamp R package course](https://www.datacamp.com/courses/developing-r-packages)
 (with a DataCamp subscription)
 
@@ -50,10 +53,11 @@ source("R/utils.R")
 
 - `usethis::create_package()`
 - `usethis::use_r()`
-- `usethis::use_usethis()`
 - `usethis::use_readme_md()`
-- `devtools::document()`
-- `devtools::build()` / `devtools::install()`
+- `usethis::use_mit_license()`
+- `devtools::load_all()` (Ctrl-Shift-L)
+- `devtools::build()` / `devtools::install()` (Ctrl-Shift-B)
+- `usethis::use_usethis()`
 
 **Files**:
 
@@ -61,23 +65,207 @@ source("R/utils.R")
 - `NAMESPACE`
 - `R/`
 - `README.md`
+- `LICENSE`
 
-## Creating a package
+## Creating and naming a package
+
+First thing is first: An R package is simply a collection of R functions saved
+on your computer that make it easy to access by using the `library()` command.
+When you make an R package, it does *not* get uploaded online, it does *not* mean
+other people can use it right away. At the beginning, the R package is only available
+to you and to your computer. That's it. So why would you want to create a package?
+Well, it can save time later with other data analyses since you can access your
+functions across files by using `library(<yourpackagename>)`. A package bundles
+related code together, simplifying your life! Alright, that's done with, next step!
+
+Creating the initial setup of files and folders necessary for an R package is 
+incredibly easy with the usethis package! But! Before we begin, it's a good idea
+to think about what the name of the package should be. You can name it whatever
+you want, as long as it is not "base", "stats", "graphics", "utils", "tools",
+"methods", or any other default base R package. Generally, name it something that
+is pretty unique or specific to you. For this session, let's call it by your
+initials (or mine "lwj") and add "helpers"... so:
 
 ```{r, eval=FALSE}
-pkg_path <- file.path(tempdir(), "testing")
-usethis::create_package(pkg_path)
+usethis::create_package("lwj.helpers")
 ```
+
+```{r, echo=FALSE}
+pkg_name <- file.path(tempdir(), "lwj.helpers")
+usethis::create_package(pkg_name)
+```
+
+A bunch of things are shown on your console. These are just some information
+that usethis is telling you that it has done. Otherwise, you now have the beginning
+of an R package! Pretty easy eh??
+
+## RStudio project options
+
+Before we get into the package details more, let's make some edits to the project
+options. We'll change the "General" options to all "No" and check that the "Build
+Tools" has correctly set the project as a package.
+
+## Files and folders
+
+There are many things that make an R package, well, an R package. One of them is
+the folder and file structure. All R packages must have certain files and folders
+in order to properly install. 
+
+**Required**:
+
+- `R/`: This folder contains the code that is available when the package is
+installed. R files should only be in this folder, hence why it is called the
+`R/` folder! Covered more below.
+- `DESCRIPTION`: Contains all the necessary information about the package, such
+as author, version number, name, brief description, and the package dependencies. 
+This file is more of the "machine-readable" metadata of the package. Covered more
+below.
+- `NAMESPACE`: Tells R which functions are available to use from the package. 
+At first, this file contains a command to list all functions that are in the `R/` 
+folder. We won't cover this file too much during this session.
+
+**Optional, but very helpful**:
+
+- `.Rbuildignore`: This file let's R know what to ignore when you install your
+package (for instance, the `.Rproj` file).
+- The `.Rproj` file: Let's RStudio know that the directory is an [RStudio
+Project](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)
+and that it is a package. Adds some package development functionality to RStudio.
+
+## Package metadata
+
+As mentioned above, there are two main files for providing package "metadata".
+Firstly, there is the `DESCRIPTION`, which is required for making a package.
+There are several data-fields in the file:
+
+```{r, echo=FALSE}
+withr::with_dir(pkg_name, desc::desc())
+```
+
+The important data-fields are the `Title`, `Authors`, `Description`, and
+`License` (get to this more later). Ok, let's open up the file and make the edits.
+
+> **Exercise** (3-5 min): Open the `DESCRIPTION` file and change the title, author,
+and description fields.
+
+The next optional, but important file to have as "human-readable metadata" is the 
+`README.md` file. Right now it doesn't exist. But we can create it using:
+
+```{r, eval=FALSE}
+usethis::use_readme_md()
+```
+
+```{r, echo=FALSE}
+withr::with_dir(pkg_name, {
+    capture.output(usethis::proj_set(pkg_name))
+    usethis::use_readme_md()
+})
+```
+
+The file looks like this:
+
+```{r, comment="", echo=FALSE}
+cat(readr::read_lines(file.path(pkg_name, "README.md")), sep = "\n")
+# cat(file = file.path(pkg_name, "README.md"))
+```
+
+The `README.md` file is a [markdown](https://rmarkdown.rstudio.com/authoring_basics.html) 
+file. We covered [markdown in a previous session](intro-rmarkdown.html).
+Generally, this file is a brief documentation containing a high level summary of
+what the package does, how to install it, and sometimes a simple example of how
+to use it. It should be written and targetted to other (potential) users, or
+yourself 9 months in the future (you'll thank yourself). Ok, this file right now 
+has some things that need to be changed. Let's edit it.
+
+> **Exercise** (5 min): Write a (fake) goal and description of the package in the
+`README.md` file. Remove the text in the "Installation" section for now. Delete
+the "Example" section.
+
+Next we want to add the license. The license is really important, even if you 
+never put your package online. The license gives information about how other people
+can use and modify your code. We won't cover the legal details about licensing,
+but for now, I would recommend using an [MIT License](https://en.wikipedia.org/wiki/MIT_License):
+
+```{r, eval=FALSE}
+# usethis::use_mit_license("<your name>")
+usethis::use_mit_license("Luke Johnston")
+```
+
+```{r, echo=FALSE}
+withr::with_dir(pkg_name, {
+    capture.output(usethis::proj_set(pkg_name))
+    usethis::use_mit_license("Luke Johnston")
+})
+```
+
+The contents of the LICENSE file are:
+
+```{r, comment="", echo=FALSE}
+cat(readr::read_lines(file.path(pkg_name, "LICENSE")), sep = "\n")
+```
+
+## Adding R code
+
+Now for the main reason you have created a package! To put your R code in it so
+you can use the code easily in other scripts! To create an R script in the package,
+use:
+
+```{r, eval=FALSE}
+# usethis::use_r("<filename>")
+usethis::use_r("addition")
+```
+
+```{r, echo=FALSE}
+# usethis::use_r("<filename>")
+withr::with_dir(pkg_name, {
+    capture.output(usethis::proj_set(pkg_name))
+    usethis::use_r("addition")
+})
+```
+
+An R script will open in RStudio. Now, let's add a function to it. We'll use a
+very simple function in file:
 
 ```{r}
-library(stringr)
-fs::dir_ls(pkg_path, all = TRUE, recursive = TRUE)
-
+addition <- function(x, y) {
+    x + y
+}
 ```
 
+Now save. To test that it works, now we run the next command:
 
-Outline:
+```{r, eval=FALSE}
+devtools::load_all()
+```
 
-- package setup and naming
-- RStudio project options
-- 
+Or type "Ctrl-Shift-L". In the console, test if the function works:
+
+```{r, comment="#>"}
+addition(2, 2)
+```
+
+It should work! We'll add some more functions and play around with the R scripts.
+
+## Building and installing
+
+Now, the final step! Let's build and install the package! When you feel your package
+is ready, time to install it for you to use with `library()`! And you can install it
+by using...:
+
+```{r, eval=FALSE}
+devtools::install()
+```
+
+Or by typing "Ctrl-Shift-B". It does some quick checks, and if all goes well, you
+now have installed your package!
+
+## Other useful functions
+
+If you end up developing R packages often, I would recommend running this command:
+
+```{r, eval=FALSE}
+usethis::use_usethis()
+```
+
+This let's you add some code to automatically load when you open up R, to make it
+easier to continue your package development!
