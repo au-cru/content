@@ -46,6 +46,9 @@ the function.
     - Run the code in the `@example` by typing `Ctrl-Enter`.
     - Repeat until the function does what you want!
 
+**Ultimately**, I hope you will try to create a function from your own code by
+the end of this session!
+
 ## Resources for learning and help
 
 - Generally, the [R Packages](http://r-pkgs.had.co.nz/) book is great for
@@ -324,7 +327,20 @@ scatter_plot <- function(.data, .xvar, .yvar) {
 }
 ```
 
-## Exercise: 
+## Exercise: Make your own function!
+
+Using this workflow, try to create, document, and test your own function! If you
+have some code that you already use repeatedly by copy and pasting, try to convert
+that code into a function. If you don't have your own code, try converting these
+pieces of code into their own function:
+
+```{r, eval=FALSE}
+# Code chunk 1:
+one_species <- iris[iris['Species'] == "setosa", ]
+sepal_one_species <- one_species[c("Sepal.Length", "Sepal.Width")]
+means_sepal_one_species <- sapply(sepal_one_species, mean)
+means_sepal_one_species
+```
 
 ## Other notes
 
