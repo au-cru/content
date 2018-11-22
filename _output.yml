@@ -1,0 +1,13 @@
+html_document:
+    toc: true
+    toc_depth: 3
+    toc_float:
+        collapse: false
+        smooth_scroll: false
+    theme: paper
+    highlight: haddock
+    include:
+        in_header: _includes/style.html
+        after_body: _includes/footer.html
+    lib_dir: site_libs
+    self_contained: no

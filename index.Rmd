@@ -22,6 +22,7 @@ Make sure to follow the [installation instructions](installation.html).
 ### Package Development:
 
 - [Setup and start creating your own package in R](pkg-creation.html)
+- [Create your own functions for package development in R](pkg-functions.html)
 
 ## Misc sessions:
 
