@@ -33,8 +33,9 @@
 <script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
 <script src="site_libs/chromatography-0.1/chromatography.js"></script>
 <script src="site_libs/DiagrammeR-binding-1.0.0/DiagrammeR.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 <style type="text/css">
 table {
     border-collapse: collapse;
@@ -123,6 +124,7 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
+
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -142,43 +144,6 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -200,77 +165,18 @@ $(document).ready(function () {
 });
 </script>
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
 </script>
 
 <!-- code folding -->
+
 
 
 
@@ -501,8 +407,8 @@ div.tocify {
 <li>In past, file history saved on server</li>
 <li>Git is <em>distributed</em></li>
 </ul>
-<div id="htmlwidget-2fe942f0f6d049826c5a" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2fe942f0f6d049826c5a">{"x":{"diagram":"\ngraph {\n    graph [rankdir = LR]\n    A [label = \"Full copy\n(mine)\"]\n    B [label = \"Full copy\n(yours)\"]\n    C [label = \"Full copy\n(theirs)\"]\n    A -- {B C}\n    B -- C\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e9f94a38d8a37172823d" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e9f94a38d8a37172823d">{"x":{"diagram":"\ngraph {\n    graph [rankdir = LR]\n    A [label = \"Full copy\n(mine)\"]\n    B [label = \"Full copy\n(yours)\"]\n    C [label = \"Full copy\n(theirs)\"]\n    A -- {B C}\n    B -- C\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="how-to-use-git-overview-common-commands" class="section level2">
 <h2>How to use Git overview: Common commands</h2>
@@ -526,13 +432,13 @@ div.tocify {
 </div>
 <div id="how-to-use-git-overview-areas" class="section level2">
 <h2>How to use Git overview: Areas</h2>
-<div id="htmlwidget-ebcb910a1c83a389a6cd" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ebcb910a1c83a389a6cd">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-dbb0a7baa115dfbf85ae" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dbb0a7baa115dfbf85ae">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="how-to-use-git-overview-remotes-aka-github" class="section level2">
 <h2>How to use Git overview: “Remotes” (aka GitHub)</h2>
-<div id="htmlwidget-e96eab4fef966b4496c6" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e96eab4fef966b4496c6">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-807cbe1e2e47ad3f1b60" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-807cbe1e2e47ad3f1b60">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 
 <hr>
