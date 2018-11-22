@@ -13,9 +13,10 @@ We recommend you have the latest versions of both R and RStudio:
 
 ## Git
 
-For Git, install from [here](https://git-scm.com/downloads).
+**Only for Git sessions**, install Git from [here](https://git-scm.com/downloads).
 
 ## Bash
 
-Mac OSX and Linux users will already have bash installed. For Windows users, 
-install the Windows version of Git above to install Git Bash.
+**Only for Bash/shell/terminal sessions**. Mac OSX and Linux users will already
+have bash installed. For Windows users, install the Windows version of Git above
+to install Git Bash.
