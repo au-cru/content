@@ -10,18 +10,3 @@ navbar:
     right:
         - text: "Main site"
           href: "https://au-oc.github.io"
-
-output:
-    html_document:
-        toc: true
-        toc_depth: 3
-        toc_float:
-            collapse: no
-            smooth_scroll: no
-        theme: paper
-        highlight: haddock
-        include:
-            in_header: _includes/style.html
-            after_body: _includes/footer.html
-        lib_dir: site_libs
-        self_contained: no
