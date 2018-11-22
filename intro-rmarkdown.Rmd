@@ -57,7 +57,7 @@ source("R/utils.R")
 **For help**:
 
 - [RStudio helpful cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
-- [R Markdown cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
+- [R Markdown cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf) (downloads a pdf file)
 - [R Markdown reference cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
 
 ## Why try to be reproducible?
