@@ -10,3 +10,5 @@ navbar:
     right:
         - text: "Main site"
           href: "https://au-oc.github.io"
+        - icon: fa-github
+          href: "https://github.com/au-oc/content"
