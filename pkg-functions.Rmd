@@ -10,8 +10,6 @@ params:
 source("R/utils.R")
 ```
 
-# Overall
-
 ## Session details
 
 - **Date of session:** `r format_date(params$datetime)`
