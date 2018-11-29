@@ -363,6 +363,12 @@ div.tocify {
         <li>
   <a href="https://au-oc.github.io">Main site</a>
 </li>
+<li>
+  <a href="https://github.com/au-oc/content">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -416,7 +422,6 @@ div.tocify {
 <li><a href="https://try.github.io/levels/1/challenges/1">Hands-on tutorial, with web-based terminal</a></li>
 <li><a href="https://git-scm.com/doc">Official git documentation</a></li>
 <li><a href="https://rogerdudler.github.io/git-guide/">Simpler first-steps guide</a></li>
-<li><a href="http://gitref.org/">Reference pages for all git commands</a></li>
 <li><a href="https://pcottle.github.io/learnGitBranching/">Interactive, visual tutorial on branching</a></li>
 </ul>
 </div>
@@ -474,13 +479,13 @@ div.tocify {
 </div>
 <div id="graphic-git-stages-overview" class="section level3">
 <h3>Graphic: Git stages overview</h3>
-<div id="htmlwidget-9123aa909425f851e351" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9123aa909425f851e351">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f5ce33c60db4076bd871" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f5ce33c60db4076bd871">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="graphic-git-remotes-github-overview" class="section level3">
 <h3>Graphic: Git “remotes” (GitHub) overview</h3>
-<div id="htmlwidget-c426e79e4ac63dc9744f" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c426e79e4ac63dc9744f">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a1a65882032cd81260a5" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a1a65882032cd81260a5">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="footnotes">

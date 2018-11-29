@@ -1,5 +1,8 @@
 ---
 title: "Licensing and copyright information"
+output:
+    html_document:
+        toc: false
 ---
 
 The course material is licensed under the 

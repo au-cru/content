@@ -355,6 +355,12 @@ div.tocify {
         <li>
   <a href="https://au-oc.github.io">Main site</a>
 </li>
+<li>
+  <a href="https://github.com/au-oc/content">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -434,7 +440,7 @@ div.tocify {
 <p>First thing is first: An R package is simply a collection of R functions saved on your computer that make it easy to access by using the <code>library()</code> command. When you make an R package, it does <em>not</em> get uploaded online, it does <em>not</em> mean other people can use it right away. At the beginning, the R package is only available to you and to your computer. That’s it. So why would you want to create a package? Well, it can save time later with other data analyses since you can access your functions across files by using <code>library(&lt;yourpackagename&gt;)</code>. A package bundles related code together, simplifying your life! Alright, that’s done with, next step!</p>
 <p>Creating the initial setup of files and folders necessary for an R package is incredibly easy with the usethis package! But! Before we begin, it’s a good idea to think about what the name of the package should be. You can name it whatever you want, as long as it is not “base”, “stats”, “graphics”, “utils”, “tools”, “methods”, or any other default base R package. Generally, name it something that is pretty unique or specific to you. For this session, let’s call it by your initials (or mine “lwj”) and add “helpers”… so:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">create_package</span>(<span class="st">&quot;lwj.helpers&quot;</span>)</a></code></pre></div>
-<pre><code>✔ Setting active project to &#39;/tmp/Rtmp4BOPQr/lwj.helpers&#39;
+<pre><code>✔ Setting active project to &#39;/tmp/RtmpXLI3mU/lwj.helpers&#39;
 ✔ Creating &#39;R/&#39;
 ✔ Creating &#39;man/&#39;
 ✔ Writing &#39;DESCRIPTION&#39;
