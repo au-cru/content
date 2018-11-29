@@ -24,6 +24,10 @@ Make sure to follow the [installation instructions](installation.html).
 - [Setup and start creating your own package in R](pkg-creation.html)
 - [Create your own functions for package development in R](pkg-functions.html)
 
+### Analysis workflow:
+
+- [Keeping track of changes to your files with version control](intro-git.html)
+
 ## Misc sessions:
 
 - [Creating your own functions in R](functions.html)
