@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Best practices in data analysis workflow and project management in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<style type="text/css">
+table {
+    border-collapse: collapse;
+}
+thead {
+    border-top: solid #DCDCDC;
+    border-bottom: solid #DCDCDC;
+}
+tr.odd {
+    background-color: #F8F8F8;
+}
+tr:last-child {
+    border-bottom: solid #DCDCDC;
+}
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">AU Open Coders</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://au-oc.github.io">Main site</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Best practices in data analysis workflow and project management in R</h1>
+
+</div>
+
+
+<section id="session-details" class="level2">
+<h2>Session details</h2>
+<ul>
+<li><strong>Date of session</strong>: 2018-11-09</li>
+<li><strong>Instructor</strong>: Luke Johnston
+<ul>
+<li><strong>Contributions from</strong>: Maria Izabel Cavassim Alves (<a href="https://github.com/izabelcavassim">@izabelcavassim</a>)</li>
+</ul></li>
+<li><strong>Session level</strong>: Beginner
+<ul>
+<li><strong>Part of the <a href="index.html">“Beginner Series”</a></strong></li>
+</ul></li>
+<li><strong>Required packages to install</strong>:</li>
+</ul>
+<section id="objectives" class="level3">
+<h3>Objectives</h3>
+<ol type="1">
+<li>To use and learn the best practices for project organization.</li>
+<li>To use RStudio to create and manage projects with consistent layout.</li>
+</ol>
+<p><strong>At the end of this session you will be able</strong>:</p>
+<ul>
+<li>To apply the best practices using R.</li>
+<li>To create a new Rstudio project.</li>
+<li>To organise folders in a consistent, structured and systematic way.</li>
+</ul>
+</section>
+</section>
+<section id="resources-for-learning-and-help" class="level2">
+<h2>Resources for learning and help</h2>
+<p><strong>For learning</strong>:</p>
+<ul>
+<li><a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">Good enough practicies in scientific computing</a></li>
+</ul>
+<p><strong>For help</strong>:</p>
+<ul>
+<li><a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">RStudio support</a></li>
+</ul>
+</section>
+<section id="best-practices" class="level2">
+<h2>Best practices</h2>
+<section id="describe-your-code" class="level3">
+<h3>Describe your code</h3>
+<p>It is very important for your future self, and for any person that will be reading/using your code to be able to understand what the <strong>code</strong>, <strong>function</strong> or <strong>RMardown</strong> will generate. Therefore it is cructial to describe what the code does, acknowledge the author, the date it was written,and give an example on how to execute it.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># Code developded by Maria Izabel - 3/12/18</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co"># The following function outputs the sum of two numeric variables (a, b). </span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># usage: summing(a=2, b=3)</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">summing &lt;-<span class="st"> </span><span class="cf">function</span>(a, b){</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="kw">return</span>(a<span class="op">+</span>b)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">}</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">summing</span>(<span class="dt">a=</span><span class="dv">2</span>, <span class="dt">b=</span><span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>The example above is summing up two different numeric variables. Note that the name I chose for this function was <strong>summing</strong>, instead of <strong>sum</strong>. This is because we know that R already has a built-in function called <strong>sum</strong> and therefore we don’t wanna overwrite it!</p>
+</section>
+<section id="exercise-creating-your-own-function-and-describing-it" class="level3">
+<h3>Exercise: Creating your own function and describing it</h3>
+<p>Time: 10 min</p>
+<p>Follow the code above to create your code. Open a RMarkdown document and create a R chunk. Instead of summing two variables you are asked to subtract them. Please find a meaningful name and make sure the name you choose is not already used by R. Run the entire chunk (pressing the green arrow in the up-right corner) and make sure no errors are given!</p>
+</section>
+<section id="load-packages" class="level3">
+<h3>Load Packages</h3>
+<p>After describing your code in the first lines of your document, use the library function to list and load all the relevant packages needed to execute your code.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(ggplot2); <span class="kw">library</span>(dplyr)</a></code></pre></div>
+</section>
+<section id="organise-all-source-files-in-the-same-directory" class="level3">
+<h3>Organise all source files in the same directory</h3>
+<p>It is a good idea to store all the necessary files that will be used/sourced in your code in the same directory. You can use the respective relative path to access them. You will learn later how to do it through R projects.</p>
+</section>
+<section id="indent-your-code" class="level3">
+<h3>Indent your code</h3>
+<p>Even though R does not care about how well indented your code is, it is a great idea to do it so, because it makes it easier to read, especially, if there are multiple nested statements like For-loop and If statement.</p>
+</section>
+<section id="exercise-indenting-a-bad-code" class="level3">
+<h3>Exercise: Indenting a bad code</h3>
+<p>Time: 10 min</p>
+<p>The following code works but it has no indentation or clarity. In the following minutes you will indent the code, run it, understand what the function is outputing and increase the flexibility of the function (you can include a “product” operation, for instance)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">operations &lt;-<span class="st"> </span><span class="cf">function</span>(a, b, character_operation){<span class="cf">if</span>(character_operation <span class="op">==</span><span class="st"> &quot;-&quot;</span>){results =<span class="st"> </span>a<span class="op">-</span>b}</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="cf">if</span>(character_operation <span class="op">==</span><span class="st"> &quot;+&quot;</span>){results =<span class="st"> </span>a<span class="op">+</span>b}</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="cf">if</span>(character_operation <span class="op">==</span><span class="st"> &quot;/&quot;</span>){results =<span class="st"> </span>a<span class="op">/</span>b}</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">return</span>(results)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">}</a></code></pre></div>
+</section>
+<section id="data-cleaning" class="level3">
+<h3>Data Cleaning</h3>
+<p>In many cases your data will be “dirty”: it will need significant preprocessing to get into a format R (or any other programming language) will find useful. This task is sometimes called “data munging”. I find it useful to store these scripts in a separate folder, and create a second “read-only” data folder to hold the “cleaned” data sets.</p>
+</section>
+</section>
+<section id="project-management" class="level2">
+<h2>Project management</h2>
+<p>Managing your projects in a reproducible fashion doesn’t just make your science reproducible, it also makes your life easier! Rstudio is here to help us with that by using projects!!</p>
+<p>RStudio projects make it straightforward to divide your work into multiple contexts, each with their own working directory, workspace, history, and source documents.</p>
+<p>Let’s create our first project!</p>
+</section>
+<section id="creating-your-first-project" class="level2">
+<h2>Creating your first project</h2>
+<section id="project" class="level3">
+<h3>Project</h3>
+<p>RStudio projects are associated with R working directories. You can create an RStudio project:</p>
+<ul>
+<li>In a brand new directory</li>
+<li>In an existing directory where you already have R code and data</li>
+<li>By cloning a version control (Git or Subversion) repository</li>
+</ul>
+<p>There are many ways one could organise a project folder. <a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">Good enough practicies in scientific computing</a> gives the following recommendations for project organization:</p>
+<ol type="1">
+<li>Put each project in its own directory, which is named after the project.</li>
+<li>Put text documents associated with the project in the <strong>doc</strong> directory.</li>
+<li>Put raw data and metadata in the <strong>data</strong> directory, and files generated during cleanup and analysis in a <strong>results</strong> directory.</li>
+<li>Put source for the project’s scripts and programs in the <strong>src</strong> directory, and programs brought in from elsewhere or compiled locally in the <strong>bin</strong> directory.</li>
+<li>Name all files to reflect their content or function.</li>
+</ol>
+</section>
+<section id="exercise-build-and-outline-your-first-project" class="level3">
+<h3>Exercise: Build and outline your first project</h3>
+<p>Time: 10 min</p>
+<p>To create a new project use the Create Project command (available on the Projects menu and on the global toolbar):</p>
+<p><img src="images/projects_new.png" /></p>
+<p>Choose the option New Directory -&gt; Empty directory -&gt; and place it in a path where you usually have your study/work-related documents.</p>
+<p>Now, navegate towards the directory that you just created your project at and double click at the your project file <strong>.Rproj</strong>.</p>
+<p>You are inside of a project session. So now you can create the following folders using the bottom function “New folder”:</p>
+<ol type="1">
+<li>doc</li>
+<li>data</li>
+<li>results</li>
+<li>src</li>
+<li>bin</li>
+</ol>
+</section>
+<section id="advantages-of-using-projects" class="level3">
+<h3>Advantages of using projects</h3>
+<p>Projects are used to make life easier. Once a project is opened within RStudio the following actions are taken:</p>
+<ul>
+<li>A new R session (process) is started</li>
+<li>The .Rprofile file in the project’s main directory (if any) is sourced by R</li>
+<li>The .RData file in the project’s main directory is loaded (if project options indicate that it should be loaded).</li>
+<li>The .Rhistory file in the project’s main directory is loaded into the RStudio History pane (and used for Console Up/Down arrow command history).</li>
+<li>The current working directory is set to the project directory.</li>
+<li>Previously edited source documents are restored into editor tabs</li>
+<li>Other RStudio settings (e.g. active tabs, splitter positions, etc.) are restored to where they were the last time the project was closed.</li>
+</ul>
+</section>
+</section>
+
+<hr>
+
+<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. See the <a href="LICENSE.html">licensing</a> page for more details about copyright information.</p>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
