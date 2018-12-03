@@ -301,6 +301,10 @@ $(document).ready(function () {
 <p><strong>For learning</strong>:</p>
 <ul>
 <li><a href="https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf">Good enough practicies in scientific computing</a></li>
+<li><a href="https://www.r-bloggers.com/r-best-practices-r-you-writing-the-r-way/">Organizing R Source Code</a></li>
+<li><a href="https://github.com/hadley/data-baby-names">An example of a well organised folder project</a></li>
+<li><a href="https://learnr.wordpress.com/2009/09/09/brew-creating-repetitive-reports/">How to create repetitive reports</a></li>
+<li><a href="https://www.stat.cmu.edu/~cshalizi/402/programming/writing-functions.pdf">Best practices on writing functions in R</a></li>
 </ul>
 <p><strong>For help</strong>:</p>
 <ul>
@@ -328,17 +332,13 @@ $(document).ready(function () {
 <section id="exercise-creating-your-own-function-and-describing-it" class="level3">
 <h3>Exercise: Creating your own function and describing it</h3>
 <p>Time: 10 min</p>
-<p>Follow the code above to create your code. Open a RMarkdown document and create a R chunk. Instead of summing two variables you are asked to subtract them. Please find a meaningful name and make sure the name you choose is not already used by R. Run the entire chunk (pressing the green arrow in the up-right corner) and make sure no errors are given!</p>
+<p>Follow the code above to create your code. Open a RMarkdown document and create a R chunk. Instead of summing two variables you are asked to subtract them. Please find a meaningful name for your function and make sure the name you choose is not already used by R. Run the entire chunk (pressing the green arrow in the up-right corner) and make sure no errors are given!</p>
 </section>
 <section id="load-packages" class="level3">
 <h3>Load Packages</h3>
 <p>After describing your code in the first lines of your document, use the library function to list and load all the relevant packages needed to execute your code.</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(ggplot2); <span class="kw">library</span>(dplyr)</a></code></pre></div>
-</section>
-<section id="organise-all-source-files-in-the-same-directory" class="level3">
-<h3>Organise all source files in the same directory</h3>
-<p>It is a good idea to store all the necessary files that will be used/sourced in your code in the same directory. You can use the respective relative path to access them. You will learn later how to do it through R projects.</p>
 </section>
 <section id="indent-your-code" class="level3">
 <h3>Indent your code</h3>
@@ -353,6 +353,33 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="cf">if</span>(character_operation <span class="op">==</span><span class="st"> &quot;/&quot;</span>){results =<span class="st"> </span>a<span class="op">/</span>b}</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">return</span>(results)</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5">}</a></code></pre></div>
+</section>
+<section id="comment-your-code" class="level3">
+<h3>Comment your code!</h3>
+<p>Whenever we are dealing with many codes of lines, it is important to comment on what possible functions important lines of the code would have. You can use the symbol <strong>#</strong> to make comments:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># This function converts temperature in fahrenheit to kelvin</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">fahrenheit_to_kelvin &lt;-<span class="st"> </span><span class="cf">function</span>(temp_F) {</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  temp_K &lt;-<span class="st"> </span>((temp_F <span class="op">-</span><span class="st"> </span><span class="dv">32</span>) <span class="op">*</span><span class="st"> </span>(<span class="dv">5</span> <span class="op">/</span><span class="st"> </span><span class="dv">9</span>)) <span class="op">+</span><span class="st"> </span><span class="fl">273.15</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="kw">return</span>(temp_K) <span class="co"># it returns a numeric value</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co"># The following function converts kelvin to celsius</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">kelvin_to_celsius &lt;-<span class="st"> </span><span class="cf">function</span>(temp_K) {</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  temp_C &lt;-<span class="st"> </span>temp_K <span class="op">-</span><span class="st"> </span><span class="fl">273.15</span> <span class="co"># The 273.15 value is based on the Charle&#39;s Law.</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  <span class="kw">return</span>(temp_C)</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">}</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co"># The following function converts fahrenheit to celsius</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14">fahrenheit_to_celsius &lt;-<span class="st"> </span><span class="cf">function</span>(temp_F) {</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">  temp_K &lt;-<span class="st"> </span><span class="kw">fahrenheit_to_kelvin</span>(temp_F) <span class="co"># It first converts fahrenheit to kelvin </span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">  temp_C &lt;-<span class="st"> </span><span class="kw">kelvin_to_celsius</span>(temp_K) <span class="co"># And then kelvin to Celsius</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">  <span class="kw">return</span>(temp_C)</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">}</a></code></pre></div>
+<p>I am over commenting it, since the name of the functions are quite self explanatory, one wouldn’t need to comment as much.</p>
+</section>
+<section id="organise-all-source-files-in-the-same-directory" class="level3">
+<h3>Organise all source files in the same directory</h3>
+<p>It is a good idea to store all the necessary files that will be used/sourced in your code in the same directory. You can use the respective relative path to access them. You will learn later how to do it through R projects.</p>
 </section>
 <section id="data-cleaning" class="level3">
 <h3>Data Cleaning</h3>
@@ -412,6 +439,32 @@ $(document).ready(function () {
 <li>Previously edited source documents are restored into editor tabs</li>
 <li>Other RStudio settings (e.g. active tabs, splitter positions, etc.) are restored to where they were the last time the project was closed.</li>
 </ul>
+</section>
+<section id="exercise-lets-output-some-results-to-our-results-folder" class="level3">
+<h3>Exercise: let’s output some results to our results folder</h3>
+<p>Time: 10 min</p>
+<p>Imagine that you are a scientist, going from europe to US in order to work with climate change. The problem is that the country where you are, the system is fahrenheit based, but you have no clue on what temperature that translates to celsius. You need to show to your boss that you are able to transform the temperatures.</p>
+<p>You have your computer, no smartphone and no internet. But you DO have a function to convert temperatures from fahrenheit to celsius (the one presented in the begin of this session).</p>
+<p>You are asked now to produce a plot that address the relationship of the two temperature systems. This plot will then be saved as a pdf into your results folder. Don’t panic! I will give you a hint on how to create the plot and save it (follow my R comments).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">## Range of &quot;normal values&quot; that you have seen in the last couple of days while in US:</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">fahrenheit_values =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">120</span>, <span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">celcius_vealues =<span class="st"> </span><span class="kw">vector</span>()</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(fahrenheit_values)){</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  celcius_vealues[i] &lt;-<span class="st">  </span><span class="kw">fahrenheit_to_celsius</span>(fahrenheit_values[i]) </a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co"># Have a look at the results:</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#celcius_vealues</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co"># Now, plot the relationships using the function (plot):</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co"># Have a look at the examples on how to plot:</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co"># ?plot()</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co"># Save the plot as a pdf:</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co"># ?pdf() to the directory: results</span></a></code></pre></div>
 </section>
 </section>
 

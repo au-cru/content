@@ -39,7 +39,10 @@ params:
 **For learning**:
 
 - [Good enough practicies in scientific computing ](https://github.com/swcarpentry/good-enough-practices-in-scientific-computing/blob/gh-pages/good-enough-practices-for-scientific-computing.pdf)
-
+- [Organizing R Source Code](https://www.r-bloggers.com/r-best-practices-r-you-writing-the-r-way/)
+- [An example of a well organised folder project](https://github.com/hadley/data-baby-names)
+- [How to create repetitive reports](https://learnr.wordpress.com/2009/09/09/brew-creating-repetitive-reports/)
+- [Best practices on writing functions in R](https://www.stat.cmu.edu/~cshalizi/402/programming/writing-functions.pdf)
 
 **For help**:
 
@@ -70,7 +73,7 @@ The example above is summing up two different numeric variables. Note that the n
 ### Exercise: Creating your own function and describing it
 Time: 10 min
 
-Follow the code above to create your code. Open a RMarkdown document and create a R chunk. Instead of summing two variables you are asked to subtract them. Please find a meaningful name and make sure the name you choose is not already used by R. Run the entire chunk (pressing the green arrow in the up-right corner) and make sure no errors are given!
+Follow the code above to create your code. Open a RMarkdown document and create a R chunk. Instead of summing two variables you are asked to subtract them. Please find a meaningful name for your function and make sure the name you choose is not already used by R. Run the entire chunk (pressing the green arrow in the up-right corner) and make sure no errors are given!
 
 ### Load Packages 
 
@@ -81,12 +84,6 @@ Example:
 
 library(ggplot2); library(dplyr)
 ```
-
-
-### Organise all source files in the same directory
-
-It is a good idea to store all the necessary files that will be used/sourced in your code in the same directory. You can use the respective relative path to access them. You will learn later how to do it through R projects.
-
 
 ### Indent your code
 
@@ -105,6 +102,37 @@ operations <- function(a, b, character_operation){if(character_operation == "-")
 return(results)
 }
 ```
+
+### Comment your code!
+Whenever we are dealing with many codes of lines, it is important to comment on what possible functions important lines of the code would have. You can use the symbol **#** to make comments:
+
+```{r}
+# This function converts temperature in fahrenheit to kelvin
+fahrenheit_to_kelvin <- function(temp_F) {
+  temp_K <- ((temp_F - 32) * (5 / 9)) + 273.15
+  return(temp_K) # it returns a numeric value
+}
+
+# The following function converts kelvin to celsius
+kelvin_to_celsius <- function(temp_K) {
+  temp_C <- temp_K - 273.15 # The 273.15 value is based on the Charle's Law.
+  return(temp_C)
+}
+
+# The following function converts fahrenheit to celsius
+fahrenheit_to_celsius <- function(temp_F) {
+  temp_K <- fahrenheit_to_kelvin(temp_F) # It first converts fahrenheit to kelvin 
+  temp_C <- kelvin_to_celsius(temp_K) # And then kelvin to Celsius
+  return(temp_C)
+}
+
+```
+
+I am over commenting it, since the name of the functions are quite self explanatory, one wouldn't need to comment as much.
+
+### Organise all source files in the same directory
+
+It is a good idea to store all the necessary files that will be used/sourced in your code in the same directory. You can use the respective relative path to access them. You will learn later how to do it through R projects.
 
 ### Data Cleaning
 
@@ -168,4 +196,40 @@ Projects are used to make life easier. Once a project is opened within RStudio t
 - The current working directory is set to the project directory.
 - Previously edited source documents are restored into editor tabs
 - Other RStudio settings (e.g. active tabs, splitter positions, etc.) are restored to where they were the last time the project was closed.
+
+### Exercise: let's output some results to our results folder
+Time: 10 min
+
+Imagine that you are a scientist, going from europe to US in order to work with climate change. The problem is that the country where you are, the system is fahrenheit based, but you have no clue on what temperature that translates to celsius. You need to show to your boss that you are able to transform the temperatures.
+
+You have your computer, no smartphone and no internet. But you DO have a function to convert temperatures from fahrenheit to celsius (the one presented in the begin of this session). 
+
+You are asked now to produce a plot that address the relationship of the two temperature systems. This plot will then be saved as a pdf into your results folder. Don't panic! I will give you a hint on how to create the plot and save it (follow my R comments). 
+
+```{r}
+
+## Range of "normal values" that you have seen in the last couple of days while in US:
+
+fahrenheit_values = seq(0,120, 5)
+celcius_vealues = vector()
+
+for(i in 1:length(fahrenheit_values)){
+  celcius_vealues[i] <-  fahrenheit_to_celsius(fahrenheit_values[i]) 
+}
+
+# Have a look at the results:
+#celcius_vealues
+
+# Now, plot the relationships using the function (plot):
+# Have a look at the examples on how to plot:
+
+# ?plot()
+
+# Save the plot as a pdf:
+# ?pdf() to the directory: results
+
+```
+
+
+
 
