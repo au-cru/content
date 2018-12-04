@@ -23,14 +23,13 @@ params:
 
 1. To become aware of and learn some "best practices" (or "good enough practices") for project organization.
 1. To use RStudio to create and manage projects with a consistent structure.
-1. 
 
 **At the end of this session you will be able**:
 
-- To apply the best practices using R.
-- To create a new Rstudio project.
+- To apply the best practices in using R for data analysis.
+- To create a new RStudio project with a consistent folder structure.
+- To use styler for formatting your code.
 - To organise folders in a consistent, structured and systematic way.
-
 
 ## Resources for learning and help
 
@@ -188,7 +187,7 @@ Time: 6 min
 Before we go more into this section, try to make these code more readable.
 Edit the code so it's easier to understand what is going on.
 
-```{r}
+```{r, eval=FALSE}
 # Variable names
 DayOne
 dayone
