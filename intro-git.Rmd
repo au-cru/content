@@ -95,7 +95,7 @@ or a collaborative workflow. All of this will be done through RStudio.
 
 ### Setting up your Git configuration
 
-```{bash}
+```{bash, eval=FALSE}
 git config --global user.name "Your Name"
 git config --global user.email "you@some.domain"
 git config --global core.editor "nano"
