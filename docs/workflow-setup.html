@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Best practices in data analysis workflow and project management in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<style type="text/css">
+table {
+    border-collapse: collapse;
+}
+thead {
+    border-top: solid #DCDCDC;
+    border-bottom: solid #DCDCDC;
+}
+tr.odd {
+    background-color: #F8F8F8;
+}
+tr:last-child {
+    border-bottom: solid #DCDCDC;
+}
+</style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">AU Open Coders</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://au-oc.github.io">Main site</a>
+</li>
+<li>
+  <a href="https://github.com/au-oc/content">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Best practices in data analysis workflow and project management in R</h1>
+
+</div>
+
+
+<div id="session-details" class="section level2">
+<h2>Session details</h2>
+<ul>
+<li><strong>Date of session</strong>: 2018-12-05</li>
+<li><strong>Instructor</strong>: Luke Johnston
+<ul>
+<li><strong>Contributions from</strong>: Maria Izabel Cavassim Alves (<a href="https://github.com/izabelcavassim">@izabelcavassim</a>)</li>
+</ul></li>
+<li><strong>Session level</strong>: Intermediate
+<ul>
+<li><strong>Part of the <a href="index.html">“Analysis Workflow Series”</a></strong></li>
+</ul></li>
+<li><p><strong>Required packages to install</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;usethis&quot;</span>, <span class="st">&quot;prodigenr&quot;</span>, <span class="st">&quot;drake&quot;</span>, <span class="st">&quot;styler&quot;</span>))</a></code></pre></div></li>
+</ul>
+<div id="objectives" class="section level3">
+<h3>Objectives</h3>
+<ol style="list-style-type: decimal">
+<li>To become aware of and learn some “best practices” (or “good enough practices”) for project organization.</li>
+<li>To use RStudio to create and manage projects with a consistent structure.</li>
+</ol>
+<p><strong>At the end of this session you will be able</strong>:</p>
+<ul>
+<li>To apply the best practices in using R for data analysis.</li>
+<li>To create a new RStudio project with a consistent folder structure.</li>
+<li>To use styler for formatting your code.</li>
+<li>To organise folders in a consistent, structured and systematic way.</li>
+</ul>
+</div>
+</div>
+<div id="resources-for-learning-and-help" class="section level2">
+<h2>Resources for learning and help</h2>
+<p><strong>For learning</strong>:</p>
+<ul>
+<li><a href="https://doi.org/10.1371/journal.pcbi.1005510">Good enough practicies in scientific computing</a> article</li>
+<li><a href="https://doi.org/10.1371/journal.pbio.1001745">Best practices in scientific computing</a> article</li>
+<li><a href="https://www.r-bloggers.com/r-best-practices-r-you-writing-the-r-way/">Organizing R Source Code</a></li>
+<li><a href="https://github.com/hadley/data-baby-names">An example of a well organised folder project</a></li>
+<li><a href="https://learnr.wordpress.com/2009/09/09/brew-creating-repetitive-reports/">How to create repetitive reports</a>
+<ul>
+<li><a href="https://au-oc.github.io/content/intro-rmarkdown.html">AUOC session material on R Markdown</a></li>
+</ul></li>
+<li><a href="https://www.stat.cmu.edu/~cshalizi/402/programming/writing-functions.pdf">Best practices on writing functions in R</a>
+<ul>
+<li><a href="https://au-oc.github.io/content/pkg-functions.html">AUOC session material on functions (in packages)</a></li>
+<li><a href="https://au-oc.github.io/content/functions.html">AUOC session material on functions (general)</a></li>
+</ul></li>
+<li><a href="https://au-oc.github.io/content/intro-git.html">AUOC session on using Git for version control</a></li>
+</ul>
+<p><strong>For help</strong>:</p>
+<ul>
+<li><a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects">RStudio support</a></li>
+<li><a href="https://style.tidyverse.org/">Tidyverse style guide</a></li>
+</ul>
+</div>
+<div id="best-practices-overviewnote" class="section level2">
+<h2>Best practices overview<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h2>
+<p>The ability to read, understand, modify and write simple pieces of code is an essential skill for modern data analysis. Here we introduce you to some of the best practices one should have while writing their codes:</p>
+<ul>
+<li>Organise all source files in the same directory (use a common and consistent folder and file structure)</li>
+<li>Use version control (to track changes to files)</li>
+<li>Make data “read-only” (don’t edit it directly) and use code to show what was done</li>
+<li>Write and describe code for people to read (be descriptive and use a <a href="https://style.tidyverse.org/">style guide</a>)</li>
+<li>Don’t repeat yourself (use and create functions)</li>
+</ul>
+</div>
+<div id="project-management" class="section level2">
+<h2>Project management</h2>
+<p>Managing your projects in a reproducible fashion doesn’t just make your science reproducible, it also makes your life easier! RStudio is here to help us with that by using projects!! RStudio projects make it straightforward to divide your work into multiple contexts, each with their own working directory, workspace, history, and source documents.</p>
+<p>It is strongly recommended that you store <em>all</em> the necessary files that will be used/sourced in your code in the <strong>same directory</strong>. You can then use the respective relative path to access them. This makes the directory and R Project a “product”, or “bundle/package”. Like a tiny machine, that needs to have all it’s component parts in the same place.</p>
+<p>Let’s create our first project!</p>
+<div id="creating-your-first-project" class="section level3">
+<h3>Creating your first project</h3>
+<p>RStudio projects are associated with R working directories. You can create an RStudio project:</p>
+<ul>
+<li>In a brand new directory</li>
+<li>In an existing directory where you already have R code and data</li>
+<li>By cloning a version control (Git or Subversion) repository</li>
+</ul>
+<p>There are many ways one could organise a project folder. We can set up a project directory folder using <a href="http://prodigenr.lukewjohnston.com/index.html">prodigenr</a>, using:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">prodigenr<span class="op">::</span><span class="kw">setup_project</span>(<span class="st">&quot;ProjectName&quot;</span>)</a></code></pre></div>
+<p>…which will have the following folders and files:</p>
+<pre><code>ProjectName
+├── R
+│   ├── README.md
+│   ├── fetch_data.R
+│   └── setup.R
+├── data
+│   └── README.md
+├── doc
+│   └── README.md
+├── .Rbuildignore
+├── .gitignore
+├── DESCRIPTION
+├── ProjectName.Rproj
+└── README.md</code></pre>
+<p>This forces a specific, and consistent, folder structure to all your work. Think of this like the “introduction”, “methods”, “results”, and “discussion” sections of your paper. Each project is then like a single manuscript or report, that contains everything relevant to that specific project. There is a lot of powerful in something as simple as a consistent structure.</p>
+<p>The README in each folder explains a bit about what should be placed there. But briefly:</p>
+<ol style="list-style-type: decimal">
+<li>Documents are in the <code>doc/</code> directory.</li>
+<li>Data, raw data, and metadata should be in either the <code>data/</code> directory (or <code>data-raw/</code> for the very raw data).</li>
+<li>All R files and code should be in the <code>R/</code> directory.</li>
+<li>Name all new files to reflect their content or function. Follow the tidyverse <a href="https://style.tidyverse.org/files.html">style guide</a> for file naming.</li>
+</ol>
+<p>And make sure to use version control (Git! See the <a href="https://au-oc.github.io/content/intro-git.html">AUOC Git material</a> for more details).</p>
+</div>
+<div id="exercise-better-file-naming" class="section level3">
+<h3>Exercise: Better file naming</h3>
+<p>Time: 2 min</p>
+<p>Think about these file names. Which file names should you use?</p>
+<pre><code>fit models.R
+fit-models.R
+foo.r
+stuff.r
+get_data.R
+Manuscript version 10.docx
+manuscript.docx
+new version of analysis.R
+trying.something.here.R
+plotting-regression.R
+utility_functions.R
+code.R</code></pre>
+</div>
+<div id="advantages-of-this-project-setup" class="section level3">
+<h3>Advantages of this project setup</h3>
+<p>Projects are used to make life easier. Once a project is opened within RStudio the following actions are taken:</p>
+<ul>
+<li>A new R session (process) is started.</li>
+<li>The <code>.Rprofile</code> file in the project’s main directory (if any) is sourced by R.</li>
+<li>The current working directory is set to the project directory.</li>
+<li>RStudio project options are loaded.</li>
+<li>Consistent structure, so easier to remember where things are, and easier for computers to do what they do best.</li>
+</ul>
+</div>
+</div>
+<div id="writing-code" class="section level2">
+<h2>Writing code</h2>
+<div id="use-a-syntax-style-guide" class="section level3">
+<h3>Use a syntax style guide</h3>
+<p>Even though R doesn’t care about naming, spacing, and indenting, it really matters how your code looks. Coding is just like writing. Even though you may go through a brainstorming note taking stage of writing, you eventually need to write correctly so others can understand what you are trying to say. In coding, brainstorming is fine, but eventually you need to code in a readable way.</p>
+<div id="exercise-make-code-more-readable" class="section level4">
+<h4>Exercise: Make code more readable</h4>
+<p>Time: 6 min</p>
+<p>Before we go more into this section, try to make these code more readable. Edit the code so it’s easier to understand what is going on.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Variable names</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">DayOne</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">dayone</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">T &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">c &lt;-<span class="st"> </span><span class="dv">9</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">mean &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">sum</span>(x)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co"># Spacing</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">x[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">x[ ,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">x[ , <span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="kw">mean</span> (x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="kw">mean</span>( x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span> )</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="cf">function</span> (x) {}</a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="cf">function</span>(x){}</a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">height&lt;-feet<span class="op">*</span><span class="dv">12</span><span class="op">+</span>inches</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="kw">mean</span>(x, <span class="dt">na.rm=</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="kw">sqrt</span>(x <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>y <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">df <span class="op">$</span><span class="st"> </span>z</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">x &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">:</span><span class="st"> </span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co"># Indenting</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="cf">if</span> (y <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;&amp;</span><span class="st"> </span>debug)</a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="kw">message</span>(<span class="st">&quot;Y is negative&quot;</span>)</a></code></pre></div>
+</div>
+</div>
+<div id="automatic-styling-with-styler" class="section level3">
+<h3>Automatic styling with styler</h3>
+<p>You have organised it by hand, however it is also possible to do it automatically. The <a href="https://style.tidyverse.org/">tidyverse style guide</a> has helped people to follow standards styles and automatically re-style chunks of code using an R package: <a href="http://styler.r-lib.org/">styler</a>. The styler snippets can be found in the Addins function on the top of your R document.</p>
+<div class="figure">
+<img src="images/styler_0.1.gif" alt="From styler website." />
+<p class="caption">From styler website.</p>
+</div>
+<p>Now, let’s try using styler on the exercise code above.</p>
+</div>
+<div id="dry-and-describing-your-code" class="section level3">
+<h3>DRY and describing your code</h3>
+<p>DRY or “don’t repeat yourself” is another way of saying, “make your own functions”! That way you don’t need to copy and paste code you’ve used multiple times. Using functions also can make your code more readable and descriptive, since a function is a bundle of code that does a specific task… and usually the function name should describe what you are doing.</p>
+<p>It is very important for your future self, and for any person that will be reading/using your code to be able to understand what the <strong>code</strong>, <strong>function</strong>, or <strong>R Mardown</strong> will generate. So it’s crucial to describe what the code does, acknowledge the author (if necessary), and give an example on how to execute it. If your function name is well decriptive, then you don’t need to spend much time describing what the code does! In the AUOC session on <a href="https://au-oc.github.io/content/pkg-functions.html">creating functions for packages</a>, we went into detail about function documentation and creation. Here we will briefly cover the core concepts.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Code developed by Maria Izabel</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># The following function outputs the sum of two numeric variables (a and b). </span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co"># usage: summing(a = 2, b = 3)</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">summing &lt;-<span class="st"> </span><span class="cf">function</span>(a, b) {</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="kw">return</span>(a <span class="op">+</span><span class="st"> </span>b)</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw">summing</span>(<span class="dt">a =</span> <span class="dv">2</span>, <span class="dt">b =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>The example above is summing up two different numeric variables. Note that the name for this function was chosen as <strong>summing</strong>, instead of <strong>sum</strong>. This is because we know that R already has a built-in function called <strong>sum</strong> and so we don’t want to overwrite it!</p>
+</div>
+<div id="loading-packages" class="section level3">
+<h3>Loading packages</h3>
+<p>At the top of each script, you should put all your library calls for loading your packages. Better yet, put all the library calls in a new file and <code>source()</code> that file in each R script.</p>
+<!--
+{{TODO: expand on this at later sessions}}
+
+It is also very important to record in what package version the code was
+executed. In order to avoid bugs due to package modification, one can always
+install a specific version:
+
+
+```r
+install_version("ggplot2", version = "0.9.1", repos = "http://cran.us.r-project.org")
+```
+
+
+comment on what possible functions important lines of the code would have. You can use the symbol **#** to make comments:
+
+
+```r
+# This function converts temperature in fahrenheit to kelvin
+fahrenheit_to_kelvin <- function(temp_F) {
+  temp_K <- ((temp_F - 32) * (5 / 9)) + 273.15
+  return(temp_K) # it returns a numeric value
+}
+
+# The following function converts kelvin to celsius
+kelvin_to_celsius <- function(temp_K) {
+  temp_C <- temp_K - 273.15 # The 273.15 value is based on the Charle's Law.
+  return(temp_C)
+}
+
+# The following function converts fahrenheit to celsius
+fahrenheit_to_celsius <- function(fahrenheit_temperature) {
+  kelvin_temperature <- fahrenheit_to_kelvin(fahrenheit_temperature) # first to kelvin
+  celsius_temperature <- kelvin_to_celsius(kelvin_temperature) # And then kelvin to Celsius
+  return(celsius_temperature)
+}
+```
+
+I am over commenting it, since the name of the functions are quite self explanatory, one wouldn't need to comment as much.
+
+
+### Data cleaning
+
+In many cases your data will be "messy": it will need significant preprocessing to get into a format R (or any other programming language) will find useful. This task is sometimes called "data munging". I find it useful to store these scripts in a separate folder, and create a second "read-only" data folder to hold the "cleaned" data sets. 
+
+-->
+</div>
+</div>
+<div id="workflow-and-script-management-with-drake" class="section level2">
+<h2>Workflow and script management with drake</h2>
+<p>We’ll cover this more during the session, but mainly at the end.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Many of the best practices are taken from the “best practices” articles listed in the “Resources”.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+
+<hr>
+
+<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. See the <a href="LICENSE.html">licensing</a> page for more details about copyright information.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
