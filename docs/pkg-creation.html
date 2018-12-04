@@ -23,9 +23,8 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
-<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
-<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <style type="text/css">
 table {
     border-collapse: collapse;
@@ -47,7 +46,7 @@ tr:last-child {
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -60,11 +59,13 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -101,6 +102,8 @@ code span.st { color: #008080; } /* String */
 code span.va { } /* Variable */
 code span.vs { color: #008080; } /* VerbatimString */
 code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+
 </style>
 <style type="text/css">
   pre:not([class]) {
@@ -164,6 +167,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -178,7 +184,6 @@ body {
   padding-top: 69px;
   margin-top: -69px;
 }
-
 .section h2 {
   padding-top: 69px;
   margin-top: -69px;
@@ -198,6 +203,43 @@ body {
 .section h6 {
   padding-top: 69px;
   margin-top: -69px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -219,18 +261,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -440,7 +541,7 @@ div.tocify {
 <p>First thing is first: An R package is simply a collection of R functions saved on your computer that make it easy to access by using the <code>library()</code> command. When you make an R package, it does <em>not</em> get uploaded online, it does <em>not</em> mean other people can use it right away. At the beginning, the R package is only available to you and to your computer. That’s it. So why would you want to create a package? Well, it can save time later with other data analyses since you can access your functions across files by using <code>library(&lt;yourpackagename&gt;)</code>. A package bundles related code together, simplifying your life! Alright, that’s done with, next step!</p>
 <p>Creating the initial setup of files and folders necessary for an R package is incredibly easy with the usethis package! But! Before we begin, it’s a good idea to think about what the name of the package should be. You can name it whatever you want, as long as it is not “base”, “stats”, “graphics”, “utils”, “tools”, “methods”, or any other default base R package. Generally, name it something that is pretty unique or specific to you. For this session, let’s call it by your initials (or mine “lwj”) and add “helpers”… so:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">create_package</span>(<span class="st">&quot;lwj.helpers&quot;</span>)</a></code></pre></div>
-<pre><code>✔ Setting active project to &#39;/tmp/RtmpXLI3mU/lwj.helpers&#39;
+<pre><code>✔ Setting active project to &#39;/tmp/Rtmp0Xuvwq/lwj.helpers&#39;
 ✔ Creating &#39;R/&#39;
 ✔ Creating &#39;man/&#39;
 ✔ Writing &#39;DESCRIPTION&#39;
@@ -473,12 +574,12 @@ div.tocify {
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R (parsed):
-    * First Last &lt;first.last@example.com&gt; [aut, cre]
+    * Luke Johnston &lt;lwjohnst@gmail.com&gt; [aut, cre]
 Description: What the package does (one paragraph).
-License: What license it uses
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)</code></pre>
+Rmarkdown: list(markdown = TRUE)</code></pre>
 <p>The important data-fields are the <code>Title</code>, <code>Authors</code>, <code>Description</code>, and <code>License</code> (get to this more later). Ok, let’s open up the file and make the edits.</p>
 <blockquote>
 <p><strong>Exercise</strong> (3-5 min): Open the <code>DESCRIPTION</code> file and change the title, author, and description fields.</p>
@@ -513,8 +614,7 @@ This is a basic example which shows you how to solve a common problem:
 <p>Next we want to add the license. The license is really important, even if you never put your package online. The license gives information about how other people can use and modify your code. We won’t cover the legal details about licensing, but for now, I would recommend using an <a href="https://en.wikipedia.org/wiki/MIT_License">MIT License</a>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># usethis::use_mit_license(&quot;&lt;your name&gt;&quot;)</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">usethis<span class="op">::</span><span class="kw">use_mit_license</span>(<span class="st">&quot;Luke Johnston&quot;</span>)</a></code></pre></div>
-<pre><code>✔ Setting License field in DESCRIPTION to &#39;MIT + file LICENSE&#39;
-✔ Writing &#39;LICENSE.md&#39;
+<pre><code>✔ Writing &#39;LICENSE.md&#39;
 ✔ Adding &#39;^LICENSE\\.md$&#39; to &#39;.Rbuildignore&#39;
 ✔ Writing &#39;LICENSE&#39;</code></pre>
 <p>The contents of the LICENSE file are:</p>

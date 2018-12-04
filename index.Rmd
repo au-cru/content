@@ -27,6 +27,7 @@ Make sure to follow the [installation instructions](installation.html).
 ### Analysis workflow:
 
 - [Keeping track of changes to your files with version control](intro-git.html)
+- [Best practices in data analysis workflow and project management in R](workflow-setup.html)
 
 ## Misc sessions:
 
