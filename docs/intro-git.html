@@ -580,13 +580,13 @@ div.tocify {
 </div>
 <div id="graphic-git-stages-overview" class="section level3">
 <h3>Graphic: Git stages overview</h3>
-<div id="htmlwidget-29992f02daef44041dc6" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-29992f02daef44041dc6">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-af4cf82888171a4d7369" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-af4cf82888171a4d7369">{"x":{"diagram":"\nsequenceDiagram\n    participant U as Untracked\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    U->>S: git add\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="graphic-git-remotes-github-overview" class="section level3">
 <h3>Graphic: Git “remotes” (GitHub) overview</h3>
-<div id="htmlwidget-12806fa8edde9b2cbaff" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-12806fa8edde9b2cbaff">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-8958ef5775bde00b1275" style="width:95%;height:360px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8958ef5775bde00b1275">{"x":{"diagram":"\nsequenceDiagram\n    participant W as Working\n    participant S as Staged\n    participant H as History\n    participant R as GitHub\n    W->>S: git add\n    W->>H: git commit filename\n    S->>H: git commit\n    H->>W: git checkout\n    H->>R: git push\n    R->>W: git pull\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div class="footnotes">

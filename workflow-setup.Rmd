@@ -3,6 +3,7 @@ title: "Best practices in data analysis workflow and project management in R"
 params:
     datetime: "2018-12-05"
     level: "Intermediate" # or intermediate or advanced
+    video_id: "vAcdq7FHJZA" # Remove if no video
     instructor: "Luke Johnston"
 ---
 
@@ -18,6 +19,8 @@ params:
     ```{r, eval=FALSE}
     install.packages(c("usethis", "prodigenr", "drake", "styler"))
     ```
+
+`r add_video(params$video_id)`
 
 ### Objectives
 
